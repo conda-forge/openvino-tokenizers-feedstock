@@ -80,10 +80,10 @@ outputs:
       script: "%PYTHON% -m pip install modules\\custom_operations {{ install_args }}"  # [win]
     requirements:
       build:
-        - pip
         - python
-        - scikit-build-core
       host:
+        - pip
+        - scikit-build-core
         - libopenvino-python  # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
