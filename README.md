@@ -17,7 +17,8 @@ Development: https://github.com/openvinotoolkit/openvino_contrib/blob/master/mod
 
 Documentation: https://github.com/openvinotoolkit/openvino_contrib/blob/master/modules/custom_operations/user_ie_extensions/tokenizer/python/README.md
 
-OpenVINO tokenizers.
+OpenVINO tokenizers module allows to convert tokenizers from Hugging Face library and execute
+them as OpenVINO IRs.
 
 
 About libopenvino-tokenizers
@@ -36,7 +37,7 @@ About openvino-tokenizers
 
 Package license: 
 
-Summary: OpenVINO Tokenizers Python converters
+Summary: OpenVINO Tokenizers
 
 Current build status
 ====================

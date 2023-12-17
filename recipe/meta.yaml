@@ -21,7 +21,7 @@ source:
   sha256: 49725d49ddcc45135a224cba6249f1b904f0321bf34c7e32be02f8d5f231e88d
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: libopenvino-tokenizers
