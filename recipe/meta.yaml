@@ -21,7 +21,7 @@ source:
   sha256: 49725d49ddcc45135a224cba6249f1b904f0321bf34c7e32be02f8d5f231e88d
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: libopenvino-tokenizers
@@ -71,7 +71,7 @@ outputs:
   - name: openvino-tokenizers
     version: {{ version }}
     about:
-      summary: OpenVINO Tokenizers Python converters
+      summary: OpenVINO Tokenizers
       license_file:
         - LICENSE
         - third-party-programs.txt
@@ -79,9 +79,11 @@ outputs:
       script: "$PYTHON -m pip install modules/custom_operations {{ install_args }}"  # [unix]
       script: "%PYTHON% -m pip install modules\\custom_operations {{ install_args }}"  # [win]
     requirements:
+      build:
+        - python                              # [build_platform != target_platform]
+        - cross-python_{{ target_platform }}  # [build_platform != target_platform]
       host:
         - pip
-        - python
         - scikit-build-core
         - libopenvino-python  # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
@@ -99,7 +101,8 @@ about:
   home: https://github.com/openvinotoolkit/openvino_contrib/blob/master/modules/custom_operations/user_ie_extensions
   summary: 'OpenVINO Tokenizers'
   description: |
-    OpenVINO tokenizers.
+    OpenVINO tokenizers module allows to convert tokenizers from Hugging Face library and execute
+    them as OpenVINO IRs.
   license: Apache-2.0
   license_family: Apache
   license_file:

@@ -17,7 +17,8 @@ Development: https://github.com/openvinotoolkit/openvino_contrib/blob/master/mod
 
 Documentation: https://github.com/openvinotoolkit/openvino_contrib/blob/master/modules/custom_operations/user_ie_extensions/tokenizer/python/README.md
 
-OpenVINO tokenizers.
+OpenVINO tokenizers module allows to convert tokenizers from Hugging Face library and execute
+them as OpenVINO IRs.
 
 
 About libopenvino-tokenizers
@@ -36,7 +37,7 @@ About openvino-tokenizers
 
 Package license: 
 
-Summary: OpenVINO Tokenizers Python converters
+Summary: OpenVINO Tokenizers
 
 Current build status
 ====================
@@ -63,10 +64,24 @@ Current build status
                 </a>
               </td>
             </tr><tr>
+              <td>linux_aarch64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=21057&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openvino-tokenizers-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
               <td>osx_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=21057&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openvino-tokenizers-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=21057&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/openvino-tokenizers-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_" alt="variant">
                 </a>
               </td>
             </tr><tr>
