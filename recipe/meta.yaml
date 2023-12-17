@@ -71,7 +71,7 @@ outputs:
   - name: openvino-tokenizers
     version: {{ version }}
     about:
-      summary: OpenVINO Tokenizers Python converters
+      summary: OpenVINO Tokenizers
       license_file:
         - LICENSE
         - third-party-programs.txt
@@ -99,7 +99,8 @@ about:
   home: https://github.com/openvinotoolkit/openvino_contrib/blob/master/modules/custom_operations/user_ie_extensions
   summary: 'OpenVINO Tokenizers'
   description: |
-    OpenVINO tokenizers.
+    OpenVINO tokenizers module allows to convert tokenizers from Hugging Face library and execute
+    them as OpenVINO IRs.
   license: Apache-2.0
   license_family: Apache
   license_file:
