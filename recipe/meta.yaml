@@ -21,7 +21,7 @@ source:
   sha256: 49725d49ddcc45135a224cba6249f1b904f0321bf34c7e32be02f8d5f231e88d
 
 build:
-  number: 1
+  number: 2
 
 outputs:
   - name: libopenvino-tokenizers
@@ -84,6 +84,7 @@ outputs:
         - cross-python_{{ target_platform }}  # [build_platform != target_platform]
       host:
         - pip
+        - python
         - scikit-build-core
         - libopenvino-python  # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
