@@ -1,5 +1,5 @@
 {% set name = "openvino-tokenizers" %}
-{% set version = "2023.2.0" %}
+{% set version = "2023.3.0" %}
 
 {% set install_args = "-vv --config-settings=wheel.cmake=False" %}
 
@@ -17,11 +17,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_contrib/archive/251be0a162b9887f14fcc05e3b6cd13bfa66277a.tar.gz
-  sha256: 49725d49ddcc45135a224cba6249f1b904f0321bf34c7e32be02f8d5f231e88d
+  url: https://github.com/openvinotoolkit/openvino_contrib/archive/e52d7ebad4936e4647b9adb0ee6c40f40c16ded4.tar.gz
+  sha256: 1f9ec90bfaf5581c83ddb1d6a1631393007cc21e9037129579517a75da0f01e1
 
 build:
-  number: 2
+  number: 0
 
 outputs:
   - name: libopenvino-tokenizers
@@ -37,7 +37,7 @@ outputs:
         - cmake --build build --parallel --config Release --target user_ov_extensions
         - cmake --install build --config Release --component tokenizers
       ignore_run_exports_from:
-        - libopenvino-dev ={{ version }}
+        - libopenvino-dev
       run_exports:
         - {{ pin_subpackage('libopenvino-tokenizers', max_pin='x.x.x') }}
     requirements:
@@ -48,14 +48,14 @@ outputs:
         - make  # [not win]
         - cmake >=3.15
       host:
-        - libopenvino-dev ={{ version }}
+        - libopenvino-dev
       run:
-        - libopenvino ={{ version }}
+        - libopenvino
     test:
       requires:
         - {{ compiler('cxx') }}
         - cmake >=3.15
-        - libopenvino-dev ={{ version }}
+        - libopenvino-dev
         - ninja
       files:
         - samples/
@@ -78,6 +78,9 @@ outputs:
     build:
       script: "$PYTHON -m pip install modules/custom_operations {{ install_args }}"  # [unix]
       script: "%PYTHON% -m pip install modules\\custom_operations {{ install_args }}"  # [win]
+      string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+      entry_points:
+        - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
     requirements:
       build:
         - python                              # [build_platform != target_platform]
@@ -89,7 +92,7 @@ outputs:
         - libopenvino-python  # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
-        - libopenvino-python ={{ version }}
+        - libopenvino-python
     test:
       imports:
         - openvino_tokenizers
