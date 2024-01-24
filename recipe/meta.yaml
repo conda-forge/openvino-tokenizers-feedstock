@@ -100,7 +100,6 @@ outputs:
         - pip
       commands:
         - pip check
-        - convert_tokenizer --help
 
 about:
   home: https://github.com/openvinotoolkit/openvino_contrib/blob/master/modules/custom_operations/user_ie_extensions
