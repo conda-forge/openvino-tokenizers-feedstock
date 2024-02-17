@@ -17,8 +17,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/e1214e6ef692e71c05bd6080d59b50a556dedf9c.tar.gz
-  sha256: 2812468a787893c4ab5458c3392f3b1c9dd60101e66a3f257525d134281b2382
+  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/a315a6ce019a7bee7989c8e30ac819ffb373d09d.tar.gz
+  sha256: 9b745c2883552a0361f8bcfb6f1d3e68892f2e4a8337b3b72bc7e95e5162d94b
 
 build:
   number: 1
@@ -33,9 +33,9 @@ outputs:
         - third-party-programs.txt
     build:
       script:
-        - cmake {{ cmake_args }} -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -DCUSTOM_OPERATIONS=tokenizer -S . -B build
-        - cmake --build build --parallel --config Release --target openvino_tokenizers
-        - cmake --install build --config Release --component tokenizers
+        - cmake {{ cmake_args }} -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
+        - cmake --build build --parallel --config Release
+        - cmake --install build --config Release
       ignore_run_exports_from:
         - libopenvino-dev
       run_exports:
@@ -60,8 +60,8 @@ outputs:
       files:
         - samples/
       commands:
-        - test -f $PREFIX/lib/libopenvino_tokenizers${SHLIB_EXT}  # [unix]
-        - if not exist %LIBRARY_BIN%\\openvino_tokenizers%SHLIB_EXT% exit 1  # [win]
+        - test -f $PREFIX/lib/libuser_ov_extensions${SHLIB_EXT}  # [unix]
+        - if not exist %LIBRARY_BIN%\\user_ov_extensions%SHLIB_EXT% exit 1  # [win]
 
         - cmake -S samples -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
         - cmake --build build --parallel

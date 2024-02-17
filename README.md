@@ -7,15 +7,15 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/openvino-tokeni
 About openvino-tokenizers
 -------------------------
 
-Home: https://github.com/openvinotoolkit/openvino_contrib/blob/master/modules/custom_operations/user_ie_extensions
+Home: https://github.com/openvinotoolkit/openvino_tokenizers
 
 Package license: Apache-2.0
 
 Summary: OpenVINO Tokenizers
 
-Development: https://github.com/openvinotoolkit/openvino_contrib/blob/master/modules/custom_operations/user_ie_extensions
+Development: https://github.com/openvinotoolkit/openvino_tokenizers
 
-Documentation: https://github.com/openvinotoolkit/openvino_contrib/blob/master/modules/custom_operations/user_ie_extensions/tokenizer/python/README.md
+Documentation: https://github.com/openvinotoolkit/openvino_tokenizers
 
 OpenVINO tokenizers module allows to convert tokenizers from Hugging Face library and execute
 them as OpenVINO IRs.
