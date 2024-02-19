@@ -1,4 +1,4 @@
-#include <openvino/openvino.hpp>
+#include <openvino/runtime/core.hpp>
 
 int main() {
     ov::Core core;
