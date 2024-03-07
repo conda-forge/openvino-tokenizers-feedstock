@@ -60,8 +60,8 @@ outputs:
       files:
         - samples/
       commands:
-        - test -f $PREFIX/lib/libuser_ov_extensions${SHLIB_EXT}  # [unix]
-        - if not exist %LIBRARY_BIN%\\user_ov_extensions%SHLIB_EXT% exit 1  # [win]
+        - test -f $PREFIX/lib/libopenvino_tokenizers${SHLIB_EXT}  # [unix]
+        - if not exist %LIBRARY_BIN%\\openvino_tokenizers%SHLIB_EXT% exit 1  # [win]
 
         - cmake -S samples -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
         - cmake --build build --parallel
