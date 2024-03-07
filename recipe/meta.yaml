@@ -48,14 +48,14 @@ outputs:
         - make  # [not win]
         - cmake >=3.15
       host:
-        - libopenvino-dev
+        - libopenvino-dev ={{ version }}
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
     test:
       requires:
         - {{ compiler('cxx') }}
         - cmake >=3.15
-        - libopenvino-dev
+        - libopenvino-dev ={{ version }}
         - ninja
       files:
         - samples/
@@ -89,7 +89,7 @@ outputs:
         - pip
         - python
         - scikit-build-core
-        - libopenvino-python  # dummy dependency, because pyproject.toml contains 'openvino' dependency
+        - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
         - {{ pin_compatible('libopenvino-python', max_pin='x.x.x') }}
