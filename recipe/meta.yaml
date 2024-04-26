@@ -17,7 +17,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/76355a299e331886b1ac7dffb05081cd663accb6.tar.gz
+  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/2024.1.0.0.tar.gz
   sha256: c14cdd7b3be8365c8e637161afc32b96f598b21d6cece4d134df39e3ebc6505c
 
 build:
