@@ -51,7 +51,7 @@ outputs:
         - libopenvino-dev ={{ version }}
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
-        - {{ pin_compatible('libopenvino_tensorflow_frontend', max_pin='x.x.x') }}
+        - {{ pin_compatible('libopenvino-tensorflow-frontend', max_pin='x.x.x') }}
     test:
       requires:
         - {{ compiler('cxx') }}
