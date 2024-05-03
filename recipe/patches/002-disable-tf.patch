@@ -1,3 +1,12 @@
+From 029750b0c8aedf0cfb5f81287957139a4144cbc8 Mon Sep 17 00:00:00 2001
+From: Mikhail Ryzhov <mikhail.ryzhov@intel.com>
+Date: Fri, 3 May 2024 16:51:37 +0200
+Subject: [PATCH 1/2] disable  TF
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index a045c60..5588ed2 100644
 --- a/CMakeLists.txt
@@ -11,3 +20,31 @@ index a045c60..5588ed2 100644
  endif()
 
  # set the project version using OpenVINO major, minor and patch versions
+
+From 6f8dc201f34e68696dd3e26cf8156f528ae0b388 Mon Sep 17 00:00:00 2001
+From: Mikhail Ryzhov <mikhail.ryzhov@intel.com>
+Date: Fri, 3 May 2024 17:26:31 +0200
+Subject: [PATCH 2/2] OpenVINO_Frontend_TensorFlow_FOUND OFF
+
+---
+ CMakeLists.txt | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5588ed2..e22f3c0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -12,9 +12,12 @@ include(cmake/platforms.cmake)
+ find_package(OpenVINODeveloperPackage QUIET
+              PATHS "${OpenVINO_DIR}")
+ if(NOT OpenVINODeveloperPackage_FOUND)
+-    find_package(OpenVINO REQUIRED COMPONENTS Runtime OPTIONAL_COMPONENTS)
++    find_package(OpenVINO REQUIRED COMPONENTS Runtime OPTIONAL_COMPONENTS TensorFlow)
+ endif()
+
++# wa for conda channel in 2024.1 release
++set(OpenVINO_Frontend_TensorFlow_FOUND OFF)
++
+ # set the project version using OpenVINO major, minor and patch versions
+ set(CMAKE_PROJECT_VERSION_TWEAK 0)
+ set(CMAKE_PROJECT_VERSION "${OpenVINO_VERSION}.${CMAKE_PROJECT_VERSION_TWEAK}")
