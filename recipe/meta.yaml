@@ -36,8 +36,8 @@ outputs:
         - cmake {{ cmake_args }} -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
         - cmake --build build --parallel --config Release
         - cmake --install build --config Release
-      ignore_run_exports_from:
-        - libopenvino-dev
+      # ignore_run_exports_from:
+      #   - libopenvino-dev
       run_exports:
         - {{ pin_subpackage('libopenvino-tokenizers', max_pin='x.x.x') }}
     requirements:
@@ -49,8 +49,9 @@ outputs:
         - cmake >=3.15
       host:
         - libopenvino-dev ={{ version }}
-      run:
-        - {{ pin_compatible('libopenvino_dev', max_pin='x.x.x') }}
+      # run:
+      #   - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
+      #   - {{ pin_compatible('libopenvino_dev', max_pin='x.x.x') }}
     test:
       requires:
         - {{ compiler('cxx') }}
