@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a045c60..5588ed2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -12,7 +12,7 @@ include(cmake/platforms.cmake)
+ find_package(OpenVINODeveloperPackage QUIET
+              PATHS "${OpenVINO_DIR}")
+ if(NOT OpenVINODeveloperPackage_FOUND)
+-    find_package(OpenVINO REQUIRED COMPONENTS Runtime OPTIONAL_COMPONENTS TensorFlow)
++    find_package(OpenVINO REQUIRED COMPONENTS Runtime OPTIONAL_COMPONENTS)
+ endif()
+
+ # set the project version using OpenVINO major, minor and patch versions
