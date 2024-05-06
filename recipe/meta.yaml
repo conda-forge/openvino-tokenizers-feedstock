@@ -99,7 +99,7 @@ outputs:
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - python >=3.8
-        - {{ pin_subpackage('libopenvino-tokenizers', max_pin='x.x.x') }}
+        - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
         - {{ pin_compatible('libopenvino-python', max_pin='x.x.x') }}
     test:
       imports:
