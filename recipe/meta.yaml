@@ -83,11 +83,13 @@ outputs:
         - LICENSE
         - third-party-programs.txt
     build:
-      script: "$PYTHON -m pip install . {{ install_args }}"  # [unix]
-      script: "%PYTHON% -m pip install . {{ install_args }}"  # [win]
+      script: python -m pip install . {{ install_args }}
       entry_points:
         - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
     requirements:
+      build:
+        - python
+        - pip
       host:
         - python
         - pip
