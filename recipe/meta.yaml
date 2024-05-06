@@ -83,6 +83,7 @@ outputs:
         - LICENSE
         - third-party-programs.txt
     build:
+      noarch: python
       script: "$PYTHON -m pip install . {{ install_args }}"  # [unix]
       script: "%PYTHON% -m pip install . {{ install_args }}"  # [win]
       entry_points:
