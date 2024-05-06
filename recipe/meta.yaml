@@ -88,9 +88,9 @@ outputs:
       entry_points:
         - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
     requirements:
-      build:
-        - python
       host:
+        - python
+        - pip
         - scikit-build-core
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
