@@ -89,12 +89,13 @@ outputs:
         - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
     requirements:
       build:
-        - python 3.11
+        - python
         - pip
       host:
         - scikit-build-core
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
+        - python >=3.8
         - {{ pin_subpackage('libopenvino-tokenizers', max_pin='x.x.x') }}
         - {{ pin_compatible('libopenvino-python', max_pin='x.x.x') }}
     test:
