@@ -90,7 +90,6 @@ outputs:
     requirements:
       build:
         - python
-        - pip
       host:
         - scikit-build-core
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
