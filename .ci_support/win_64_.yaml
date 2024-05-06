@@ -8,15 +8,15 @@ cxx_compiler:
 - vs2019
 libopenvino_dev:
 - 2024.1.0
+libabseil:
+- '20240116'
+libprotobuf:
+- 4.25.3
 pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.10.*
 - 3.11.*
-- 3.12.*
-- 3.8.*
-- 3.9.*
 target_platform:
 - win-64
