@@ -84,7 +84,8 @@ outputs:
         - third-party-programs.txt
     build:
       noarch: python
-      script: python -m pip install . {{ install_args }}
+      script: "$PYTHON -m pip install . {{ install_args }}"  # [unix]
+      script: "%PYTHON% -m pip install . {{ install_args }}"  # [win]
       entry_points:
         - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
     requirements:
