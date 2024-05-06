@@ -90,7 +90,8 @@ outputs:
         - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
     requirements:
       build:
-        - python
+        - python >=3.8,<4
+        - pip
       host:
         - pip
         - python >=3.8,<4
