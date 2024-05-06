@@ -93,7 +93,6 @@ outputs:
         - python >=3.8,<4
         - pip
       host:
-        - pip
         - python >=3.8,<4
         - scikit-build-core
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
