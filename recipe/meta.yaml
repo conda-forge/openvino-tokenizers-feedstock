@@ -86,8 +86,6 @@ outputs:
       noarch: python
       script: "$PYTHON -m pip install . {{ install_args }}"  # [unix]
       script: "%PYTHON% -m pip install . {{ install_args }}"  # [win]
-      script_env:
-        - build_platform={{ target_platform }}
       entry_points:
         - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
     requirements:
@@ -104,8 +102,6 @@ outputs:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
         - {{ pin_compatible('libopenvino-python', max_pin='x.x.x') }}
     test:
-      script_env:
-        - build_platform={{ target_platform }}
       imports:
         - openvino_tokenizers
       requires:
