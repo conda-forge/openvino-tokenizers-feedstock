@@ -5,6 +5,7 @@ azure:
   store_build_artifacts: true
 build_platform:
   osx_arm64: osx_64
+  linux_aarch64: linux_64
 channel_priority: strict
 github:
   branch_name: main
@@ -15,5 +16,3 @@ conda_forge_output_validation: true
 os_version:
   linux_64: cos7
 test: native_and_emulated
-provider:
-  linux_aarch64: azure
