@@ -94,9 +94,11 @@ outputs:
         - cross-python_{{ target_platform }}  # [build_platform != target_platform]
         - pip
       host:
+        - python                              # [build_platform != target_platform]
         - pip
         - scikit-build-core
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
+        - libopenvino-tokenizers              # [build_platform != target_platform]
       run:
         - python >=3.8
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
