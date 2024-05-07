@@ -102,8 +102,9 @@ outputs:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
         - {{ pin_compatible('libopenvino-python', max_pin='x.x.x') }}
     test:
+      script_env:
+        - CONDA_SUBDIR: {{ target_platform }}
       imports:
-        - export CONDA_SUBDIR={{ target_platform }}
         - openvino_tokenizers
       requires:
         - pip
