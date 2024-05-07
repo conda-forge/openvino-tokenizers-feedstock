@@ -103,7 +103,7 @@ outputs:
         - {{ pin_compatible('libopenvino-python', max_pin='x.x.x') }}
     test:
       script_env:
-        - CONDA_SUBDIR: {{ target_platform }}
+        - build_platform: {{ target_platform }}
       imports:
         - openvino_tokenizers
       requires:
