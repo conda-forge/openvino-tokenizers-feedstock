@@ -17,7 +17,7 @@ docker_image:
 libabseil:
 - '20240116'
 libopenvino_dev:
-- 2024.0.0
+- 2024.1.0
 libprotobuf:
 - 4.25.3
 target_platform:
