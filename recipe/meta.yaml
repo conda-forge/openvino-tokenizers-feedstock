@@ -98,7 +98,8 @@ outputs:
         - python                              # [build_platform != target_platform]
         - pip
         - scikit-build-core
-        - libopenvino-tokenizers
+        - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}  # [build_platform != target_platform]
+        - {{ pin_compatible('libopenvino-python', max_pin='x.x.x') }} # [build_platform != target_platform]
       run:
         - python >=3.8
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
