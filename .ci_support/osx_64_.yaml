@@ -15,9 +15,11 @@ cxx_compiler_version:
 libabseil:
 - '20240116'
 libopenvino_dev:
-- 2024.1.0
+- 2024.0.0
 libprotobuf:
 - 4.25.3
+macos_machine:
+- x86_64-apple-darwin13.4.0
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -28,8 +30,6 @@ python:
 - 3.12.* *_cpython
 - 3.8.* *_cpython
 - 3.9.* *_cpython
-macos_machine:
-- x86_64-apple-darwin13.4.0
 target_platform:
 - osx-64
 zip_keys:
