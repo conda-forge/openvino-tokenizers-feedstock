@@ -15,4 +15,6 @@ conda_build:
 conda_forge_output_validation: true
 os_version:
   linux_64: cos7
-test: native
+test: native_and_emulated
+noarch_platforms:
+  - linux_64
