@@ -18,4 +18,5 @@ os_version:
 test: native_and_emulated
 noarch_platforms:
   - linux_64
-linux_aarch64: azure
+provider:
+  linux_aarch64: azure
