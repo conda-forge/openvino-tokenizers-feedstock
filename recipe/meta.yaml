@@ -17,11 +17,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.1.tar.gz
-  sha256: 0ede117548e4d36d1cc00e505de70cb90d3aaeb30952e9a5729710d9600f7c68
+  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.2.tar.gz
+  sha256: 79abc8aab9964e60dfb3f8e3889f91c56263de50d1c0824b4e6f5345fdf854bf
 
 build:
-  number: 3
+  number: 4
 
 outputs:
   - name: libopenvino-tokenizers
