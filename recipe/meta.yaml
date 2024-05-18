@@ -17,11 +17,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.2.tar.gz
-  sha256: 79abc8aab9964e60dfb3f8e3889f91c56263de50d1c0824b4e6f5345fdf854bf
+  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/93efb24449ecc7cab22de7c4d2338c6cada0ebe7.tar.gz
+  sha256: ba05f4cf04146c5b86087c4075f6c26089b18058c71eb91c2129116e874d156a
 
 build:
-  number: 4
+  number: 5
 
 outputs:
   - name: libopenvino-tokenizers
@@ -33,7 +33,7 @@ outputs:
         - third-party-programs.txt
     build:
       script:
-        - cmake {{ cmake_args }} -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
+        - cmake {{ cmake_args }} -DCMAKE_REQUIRE_FIND_PACKAGE_sentencepiece=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
         - cmake --build build --parallel --config Release
         - cmake --install build --config Release
       ignore_run_exports_from:
@@ -47,12 +47,11 @@ outputs:
         - {{ stdlib("c") }}
         - make  # [unix]
         - cmake
-        - libprotobuf  # [unix]
-        - libabseil  # [unix]
       host:
         - libopenvino-dev ={{ version }}
-        - libprotobuf  # [unix]
-        - libabseil  # [unix]
+        - libsentencepiece
+        - libprotobuf
+        - libabseil
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
         - {{ pin_compatible('libopenvino-tensorflow-frontend', max_pin='x.x.x') }}
