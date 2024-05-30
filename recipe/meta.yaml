@@ -90,7 +90,7 @@ outputs:
         - pip
         - python
         - scikit-build-core
-        - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
+        - libopenvino-python =2024.2.0.dev20240513 # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
         - {{ pin_compatible('libopenvino-python', max_pin='x.x.x') }}
