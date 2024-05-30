@@ -7,7 +7,7 @@
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
 # On non-Windows CMAKE_ARGS already contains CMAKE_INSTALL_PREFIX.
 {% if win %}
-    {% set cmake_args = "%CMAKE_ARGS% -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=%LIBRARY_PREFIX% -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=%LIBRARY_PREFIX%" %}
+    {% set cmake_args = "%CMAKE_ARGS% -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
 {% else %}
     {% set cmake_args = "$CMAKE_ARGS -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
 {% endif %}
