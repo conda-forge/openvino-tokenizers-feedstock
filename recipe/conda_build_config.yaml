@@ -6,3 +6,5 @@ c_stdlib_version:   # [linux]
 
 channel_sources:
   - conda-forge/label/openvino_dev,conda-forge
+channel_targets:
+  - conda-forge openvino_tokenizers_dev
