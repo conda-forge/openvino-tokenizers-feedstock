@@ -3,3 +3,6 @@ c_stdlib_version:           # [osx and x86_64]
 
 c_stdlib_version:   # [linux]
   - "2.17"          # [linux]
+
+channel_sources:
+  - conda-forge/label/openvino_dev,conda-forge
