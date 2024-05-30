@@ -8,6 +8,8 @@ channel_targets:
 - conda-forge openvino_tokenizers_dev
 cxx_compiler:
 - vs2019
+libopenvino_dev:
+- 2024.1.0
 pin_run_as_build:
   python:
     min_pin: x.x
