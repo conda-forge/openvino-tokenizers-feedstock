@@ -7,9 +7,9 @@
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
 # On non-Windows CMAKE_ARGS already contains CMAKE_INSTALL_PREFIX.
 {% if win %}
-    {% set cmake_args = "%CMAKE_ARGS% -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%" %}
+    {% set cmake_args = "%CMAKE_ARGS% -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=%LIBRARY_PREFIX% -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=%LIBRARY_PREFIX%" %}
 {% else %}
-    {% set cmake_args = "$CMAKE_ARGS" %}
+    {% set cmake_args = "$CMAKE_ARGS -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=lib -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
 {% endif %}
 
 package:
@@ -17,11 +17,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.2.tar.gz
-  sha256: 79abc8aab9964e60dfb3f8e3889f91c56263de50d1c0824b4e6f5345fdf854bf
+  url: https://github.com/Wovchena/openvino_tokenizers/archive/releases/2024/2.tar.gz
+  sha256: 9f54722b0818cd7a8ab83e6d6ef1a768033255387cf5652edb2f2b2e7d0a7524
 
 build:
-  number: 4
+  number: 5
 
 outputs:
   - name: libopenvino-tokenizers
