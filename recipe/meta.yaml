@@ -36,8 +36,6 @@ outputs:
         - cmake {{ cmake_args }} -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
         - cmake --build build --parallel --config Release
         - cmake --install build --config Release
-      ignore_run_exports_from:
-        - libopenvino-dev
       run_exports:
         - {{ pin_subpackage('libopenvino-tokenizers', max_pin='x.x.x') }}
     requirements:
@@ -50,7 +48,6 @@ outputs:
         - libprotobuf  # [unix]
         - libabseil  # [unix]
       host:
-        - libopenvino-dev ={{ version }}
         - libprotobuf  # [unix]
         - libabseil  # [unix]
       run:
@@ -60,7 +57,6 @@ outputs:
       requires:
         - {{ compiler('cxx') }}
         - cmake
-        - libopenvino-dev ={{ version }}
         - ninja
       files:
         - samples/
