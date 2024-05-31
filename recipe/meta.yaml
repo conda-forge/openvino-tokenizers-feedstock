@@ -10,6 +10,9 @@
     {% set cmake_args = "%CMAKE_ARGS% -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
 {% else %}
     {% set cmake_args = "$CMAKE_ARGS -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
+    {% if target_platform != build_platform %}
+        {% set cmake_args = cmake_args + " -Dprotobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
+    {% endif %}
 {% endif %}
 
 package:
@@ -18,7 +21,7 @@ package:
 
 source:
   url: https://github.com/Wovchena/openvino_tokenizers/archive/releases/2024/2.tar.gz
-  sha256: 343f78545f2205101eae9f8d92b56bb5fdfc7670e9747d756d338bfadc4ef7d4
+  sha256: 3933bb2bb80b53311376661e1f45ca6078576c0a1e199c2db0215ec5633f897
 
 build:
   number: 5
