@@ -11,7 +11,7 @@
 {% else %}
     {% set cmake_args = "$CMAKE_ARGS -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
     {% if target_platform != build_platform %}
-        {% set cmake_args = cmake_args + " -Dprotobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
+        {% set cmake_args = cmake_args + " -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
     {% endif %}
 {% endif %}
 
