@@ -21,7 +21,7 @@ package:
 
 source:
   url: https://github.com/Wovchena/openvino_tokenizers/archive/releases/2024/2.tar.gz
-  sha256: 24b2ef552cb3cfb32b8a02cd58a842735fa1bb1c21ba416ce4b16e4ad89b2f6e
+  sha256: ec0b7ce1deeefbc18a3f7b84f12efad452c0a461fa7fd7aafc9760655f001757
 
 build:
   number: 5
@@ -36,7 +36,7 @@ outputs:
         - third-party-programs.txt
     build:
       script:
-        - cmake {{ cmake_args }} -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
+        - cmake {{ cmake_args }} -DCMAKE_REQUIRE_FIND_PACKAGE_sentencepiece=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
         - cmake --build build --parallel --config Release
         - cmake --install build --config Release
       ignore_run_exports_from:
@@ -50,12 +50,11 @@ outputs:
         - {{ stdlib("c") }}
         - make  # [unix]
         - cmake
-        - libprotobuf  # [unix]
-        - libabseil  # [unix]
       host:
         - libopenvino-dev ={{ version }}
-        - libprotobuf  # [unix]
-        - libabseil  # [unix]
+        - libsentencepiece
+        - libprotobuf
+        - libabseil
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
         - {{ pin_compatible('libopenvino-tensorflow-frontend', max_pin='x.x.x') }}
