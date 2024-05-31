@@ -21,7 +21,7 @@ package:
 
 source:
   url: https://github.com/Wovchena/openvino_tokenizers/archive/releases/2024/2.tar.gz
-  sha256: 3933bb2bb80b53311376661e1f45ca6078576c0a1e199c2db0215ec5633f897c
+  sha256: 24b2ef552cb3cfb32b8a02cd58a842735fa1bb1c21ba416ce4b16e4ad89b2f6e
 
 build:
   number: 5
