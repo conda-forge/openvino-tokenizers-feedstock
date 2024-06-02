@@ -9,7 +9,7 @@
 {% if win %}
     {% set cmake_args = "%CMAKE_ARGS% -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
 {% else %}
-    {% set cmake_args = "$CMAKE_ARGS -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
+    {% set cmake_args = "$CMAKE_ARGS -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib -DCMAKE_SKIP_INSTALL_RPATH=ON" %}
     {% if target_platform != build_platform %}
         {% set cmake_args = cmake_args + " -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
     {% endif %}
@@ -20,8 +20,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/Wovchena/openvino_tokenizers/archive/releases/2024/2.tar.gz
-  sha256: ec0b7ce1deeefbc18a3f7b84f12efad452c0a461fa7fd7aafc9760655f001757
+  url: https://github.com/ilya-lavrenov/openvino_tokenizers/archive/ba9f77d8196ccc3ebd6d47e16b75720af12ebd13.tar.gz
+  sha256: 229090f500beb987900d94cc9c12cacfb4aa5c6672f13cb2435297b4d85707b7
 
 build:
   number: 5
@@ -36,7 +36,7 @@ outputs:
         - third-party-programs.txt
     build:
       script:
-        - cmake {{ cmake_args }} -DCMAKE_REQUIRE_FIND_PACKAGE_sentencepiece=ON -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
+        - cmake {{ cmake_args }} -DCMAKE_REQUIRE_FIND_PACKAGE_sentencepiece=ON -S . -B build
         - cmake --build build --parallel --config Release
         - cmake --install build --config Release
       ignore_run_exports_from:
