@@ -7,13 +7,14 @@
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
 # On non-Windows CMAKE_ARGS already contains CMAKE_INSTALL_PREFIX.
 {% if win %}
-    {% set cmake_args = "%CMAKE_ARGS% -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
+    {% set cmake_args = "%CMAKE_ARGS% -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%" %}
 {% else %}
-    {% set cmake_args = "$CMAKE_ARGS -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib -DCMAKE_SKIP_INSTALL_RPATH=ON" %}
+    {% set cmake_args = "$CMAKE_ARGS -DCMAKE_SKIP_INSTALL_RPATH=ON" %}
     {% if target_platform != build_platform %}
         {% set cmake_args = cmake_args + " -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
     {% endif %}
 {% endif %}
+{% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib -DCMAKE_REQUIRE_FIND_PACKAGE_sentencepiece=ON" %}
 
 package:
   name: {{ name|lower }}-split
@@ -36,7 +37,7 @@ outputs:
         - third-party-programs.txt
     build:
       script:
-        - cmake {{ cmake_args }} -DCMAKE_REQUIRE_FIND_PACKAGE_sentencepiece=ON -S . -B build
+        - cmake {{ cmake_args }} -S . -B build
         - cmake --build build --parallel --config Release
         - cmake --install build --config Release
       ignore_run_exports_from:
