@@ -21,11 +21,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/e5cb83bc4fd246014f5d4cb0dfb6e2a3d1343dc3.tar.gz
-  sha256: cd8d4a47a672af86746a34bc0b24928a55f969ec4a0abf74bef7f97f1343dee1
+  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
+  sha256: d2fd7f5023f7d26072c2248a98520e2b8cb45f6d202a69392a7a922bf5a27951
 
 build:
-  number: 5
+  number: 0
 
 outputs:
   - name: libopenvino-tokenizers
