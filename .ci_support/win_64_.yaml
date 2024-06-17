@@ -3,9 +3,9 @@ c_compiler:
 c_stdlib:
 - vs
 channel_sources:
-- conda-forge/label/openvino_dev,conda-forge
+- conda-forge
 channel_targets:
-- conda-forge openvino_tokenizers_dev
+- conda-forge main
 cxx_compiler:
 - vs2019
 libopenvino_dev:

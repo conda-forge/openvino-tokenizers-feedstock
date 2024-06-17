@@ -11,9 +11,9 @@ c_stdlib:
 c_stdlib_version:
 - '11.0'
 channel_sources:
-- conda-forge/label/openvino_dev,conda-forge
+- conda-forge
 channel_targets:
-- conda-forge openvino_tokenizers_dev
+- conda-forge main
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
