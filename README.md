@@ -110,14 +110,14 @@ Current release info
 Installing openvino-tokenizers
 ==============================
 
-Installing `openvino-tokenizers` from the `conda-forge/label/openvino_tokenizers_dev` channel can be achieved by adding `conda-forge/label/openvino_tokenizers_dev` to your channels with:
+Installing `openvino-tokenizers` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
-conda config --add channels conda-forge/label/openvino_tokenizers_dev
+conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/openvino_tokenizers_dev` channel has been enabled, `libopenvino-tokenizers, openvino-tokenizers` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libopenvino-tokenizers, openvino-tokenizers` can be installed with `conda`:
 
 ```
 conda install libopenvino-tokenizers openvino-tokenizers
@@ -132,26 +132,26 @@ mamba install libopenvino-tokenizers openvino-tokenizers
 It is possible to list all of the versions of `libopenvino-tokenizers` available on your platform with `conda`:
 
 ```
-conda search libopenvino-tokenizers --channel conda-forge/label/openvino_tokenizers_dev
+conda search libopenvino-tokenizers --channel conda-forge
 ```
 
 or with `mamba`:
 
 ```
-mamba search libopenvino-tokenizers --channel conda-forge/label/openvino_tokenizers_dev
+mamba search libopenvino-tokenizers --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libopenvino-tokenizers --channel conda-forge/label/openvino_tokenizers_dev
+mamba repoquery search libopenvino-tokenizers --channel conda-forge
 
 # List packages depending on `libopenvino-tokenizers`:
-mamba repoquery whoneeds libopenvino-tokenizers --channel conda-forge/label/openvino_tokenizers_dev
+mamba repoquery whoneeds libopenvino-tokenizers --channel conda-forge
 
 # List dependencies of `libopenvino-tokenizers`:
-mamba repoquery depends libopenvino-tokenizers --channel conda-forge/label/openvino_tokenizers_dev
+mamba repoquery depends libopenvino-tokenizers --channel conda-forge
 ```
 
 
