@@ -1,6 +1,6 @@
 #include <openvino/runtime/core.hpp>
 
-int main() {
+int main() try {
     ov::Core core;
 #ifdef __APPLE__
     core.add_extension("libopenvino_tokenizers.dylib");
@@ -10,4 +10,10 @@ int main() {
     core.add_extension("libopenvino_tokenizers.so");
 #endif
     return 0;
+} catch (const std::exception& error) {
+    std::cerr << error.what() << '\n';
+    return 1;
+} catch (...) {
+    std::cerr << "Non-exception object thrown\n";
+    return 2;
 }

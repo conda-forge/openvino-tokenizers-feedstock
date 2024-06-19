@@ -1,5 +1,5 @@
 {% set name = "openvino-tokenizers" %}
-{% set version = "2024.1.0" %}
+{% set version = "2024.2.0" %}
 
 {% set install_args = "-vv --config-settings=wheel.cmake=False" %}
 
@@ -9,19 +9,23 @@
 {% if win %}
     {% set cmake_args = "%CMAKE_ARGS% -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX%" %}
 {% else %}
-    {% set cmake_args = "$CMAKE_ARGS" %}
+    {% set cmake_args = "$CMAKE_ARGS -DCMAKE_SKIP_INSTALL_RPATH=ON" %}
+    {% if target_platform != build_platform %}
+        {% set cmake_args = cmake_args + " -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
+    {% endif %}
 {% endif %}
+{% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib -DCMAKE_REQUIRE_FIND_PACKAGE_sentencepiece=ON" %}
 
 package:
   name: {{ name|lower }}-split
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.2.tar.gz
-  sha256: 79abc8aab9964e60dfb3f8e3889f91c56263de50d1c0824b4e6f5345fdf854bf
+  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
+  sha256: d2fd7f5023f7d26072c2248a98520e2b8cb45f6d202a69392a7a922bf5a27951
 
 build:
-  number: 4
+  number: 0
 
 outputs:
   - name: libopenvino-tokenizers
@@ -33,7 +37,7 @@ outputs:
         - third-party-programs.txt
     build:
       script:
-        - cmake {{ cmake_args }} -DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_BUILD_TYPE=Release -S . -B build
+        - cmake {{ cmake_args }} -S . -B build
         - cmake --build build --parallel --config Release
         - cmake --install build --config Release
       ignore_run_exports_from:
@@ -47,12 +51,11 @@ outputs:
         - {{ stdlib("c") }}
         - make  # [unix]
         - cmake
-        - libprotobuf  # [unix]
-        - libabseil  # [unix]
       host:
         - libopenvino-dev ={{ version }}
-        - libprotobuf  # [unix]
-        - libabseil  # [unix]
+        - libsentencepiece
+        - libprotobuf
+        - libabseil
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
         - {{ pin_compatible('libopenvino-tensorflow-frontend', max_pin='x.x.x') }}
