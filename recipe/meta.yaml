@@ -1,5 +1,6 @@
+{% set install_args = "-vv --config-settings=wheel.cmake=False" %}
 {% set name = "openvino-tokenizers" %}
-{% set version = "2024.2.0" %}
+{% set version = "2024.3.0" %}
 
 {% set install_args = "-vv --config-settings=wheel.cmake=False" %}
 
@@ -22,10 +23,10 @@ package:
 
 source:
   url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
-  sha256: d2fd7f5023f7d26072c2248a98520e2b8cb45f6d202a69392a7a922bf5a27951
+  sha256: e0f82a6d5a82756afc4ec5203fa9c7ecde39a115c42b365912f1f8ff1630df2d
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: libopenvino-tokenizers
