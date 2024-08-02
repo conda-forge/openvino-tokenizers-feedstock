@@ -84,8 +84,8 @@ outputs:
         - LICENSE
         - third-party-programs.txt
     build:
-      script: "$PYTHON -m pip install py-build-cmake@git+https://github.com/tttapa/py-build-cmake@7ab73da351c7140f06d727a8705bece4cf544cd9 . {{ install_args }}"  # [unix]
-      script: "%PYTHON% -m pip install py-build-cmake@git+https://github.com/tttapa/py-build-cmake@7ab73da351c7140f06d727a8705bece4cf544cd9 . {{ install_args }}"  # [win]
+      script: "$PYTHON -m pip install . {{ install_args }}"  # [unix]
+      script: "%PYTHON% -m pip install . {{ install_args }}"  # [win]
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       entry_points:
         - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
