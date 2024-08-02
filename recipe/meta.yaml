@@ -1,7 +1,7 @@
 {% set name = "openvino-tokenizers" %}
 {% set version = "2024.3.0" %}
 
-{% set install_args = "-vv --config-settings=wheel.cmake=False" %}
+{% set install_args = '-vv --config-settings=override=cmake.options.SKIP_BUILD=ON' %}
 
 # Libraries on Windows are expected to be installed into LIBRARY_PREFIX.
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
