@@ -1,7 +1,9 @@
 {% set name = "openvino-tokenizers" %}
-{% set version = "2024.2.0" %}
+{% set version = "2024.3.0" %}
 
-{% set install_args = "-vv --config-settings=wheel.cmake=False" %}
+{% set install_args = "-vv --config-settings=override=cmake.install_components=[openvino_tokenizers_python openvino_tokenizers_licenses]" %}
+{% set install_args = install_args + " --config-settings=override=cmake.options.BUILD_CPP_EXTENSION=OFF" %}
+{% set install_args = install_args + " --config-settings=override=cmake.build_args=[]" %}
 
 # Libraries on Windows are expected to be installed into LIBRARY_PREFIX.
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
@@ -21,11 +23,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
-  sha256: d2fd7f5023f7d26072c2248a98520e2b8cb45f6d202a69392a7a922bf5a27951
+  url: https://github.com/ilya-lavrenov/openvino_tokenizers/archive/5a82fea1bb8591452c8ba8bf5169a5bb80db36d8.tar.gz
+  sha256: 59a39939804a53a31de9bd91bcaf2cd3d9e8acd9a8106b8296ed0a1a1dfbe91e
 
 build:
-  number: 2
+  number: 0
 
 outputs:
   - name: libopenvino-tokenizers
@@ -96,7 +98,6 @@ outputs:
       host:
         - pip
         - python
-        - scikit-build-core
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
