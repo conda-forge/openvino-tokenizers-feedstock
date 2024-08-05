@@ -19,8 +19,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/ilya-lavrenov/openvino_tokenizers/archive/5a82fea1bb8591452c8ba8bf5169a5bb80db36d8.tar.gz
-  sha256: 59a39939804a53a31de9bd91bcaf2cd3d9e8acd9a8106b8296ed0a1a1dfbe91e
+  url: https://github.com/ilya-lavrenov/openvino_tokenizers/archive/a3150aee915c6fb7e6d90b04eec3a331e2a3aad3.tar.gz
+  sha256: b810cf022e245fe9e72fb515c0fdd0f84d6f326079515bb3cdb88eaf8f011bf6
 
 build:
   number: 0
@@ -90,6 +90,11 @@ outputs:
       build:
         - python                              # [build_platform != target_platform]
         - cross-python_{{ target_platform }}  # [build_platform != target_platform]
+        - {{ compiler('cxx') }}
+        - {{ compiler('c') }}
+        - {{ stdlib("c") }}
+        - make  # [unix]
+        - cmake
       host:
         - pip
         - python
