@@ -21,7 +21,7 @@ cxx_compiler_version:
 libabseil:
 - '20240116'
 libopenvino_dev:
-- 2024.2.0
+- 2024.3.0
 libprotobuf:
 - 4.25.3
 libsentencepiece:
