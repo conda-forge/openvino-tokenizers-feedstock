@@ -1,7 +1,7 @@
 {% set name = "openvino-tokenizers" %}
 {% set version = "2024.3.0" %}
 
-{% set install_args = '-vv --isolated --index-url https://pypi.org/simple --config-settings=override=cmake.options.SKIP_BUILD=ON' %}
+{% set install_args = '-vv --index-url https://pypi.org/simple --config-settings=override=cmake.options.SKIP_BUILD=ON' %}
 
 # Libraries on Windows are expected to be installed into LIBRARY_PREFIX.
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
@@ -84,7 +84,10 @@ outputs:
         - LICENSE
         - third-party-programs.txt
     build:
-      script: "$PYTHON -m pip config list && $PYTHON -m pip install . {{ install_args }}"  # [unix]
+      script:
+        - "$PYTHON -m pip config set no-index False" # [unix]
+        - "$PYTHON -m pip config set no-dependencies False" # [unix]
+        - "$PYTHON -m pip config list && $PYTHON -m pip install . {{ install_args }}"  # [unix]
       script: "%PYTHON% -m pip install . {{ install_args }}"  # [win]
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       entry_points:
