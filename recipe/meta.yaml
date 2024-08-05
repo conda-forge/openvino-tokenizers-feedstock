@@ -91,11 +91,10 @@ outputs:
         - convert_tokenizer = openvino_tokenizers.cli:convert_hf_tokenizer
     requirements:
       build:
-        - pip = 24.1.2
         - python                              # [build_platform != target_platform]
         - cross-python_{{ target_platform }}  # [build_platform != target_platform]
       host:
-        - pip
+        - pip = 24.1.2
         - python
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
