@@ -19,8 +19,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/ilya-lavrenov/openvino_tokenizers/archive/0e78b28b46649cbbbd7bb72bd61991df49a645bc.tar.gz
-  sha256: 6c0d2d64a3a0a9d8f41a8127e096a8337784681e375366e287d6dcb57b08e8c8
+  url: https://github.com/ilya-lavrenov/openvino_tokenizers/archive/72f87084983fc9fcf84ed5d131dd2ef15ff2af5d.tar.gz
+  sha256: 9b7f014e8ea476a7aca5984c24675106828cf38a57652452e2214e66170a6580
 
 build:
   number: 0
