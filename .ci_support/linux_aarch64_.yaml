@@ -13,7 +13,7 @@ cdt_arch:
 cdt_name:
 - cos7
 channel_sources:
-- conda-forge
+- conda-forge/label/py_build_cmake_dev,conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -25,7 +25,7 @@ docker_image:
 libabseil:
 - '20240116'
 libopenvino_dev:
-- 2024.2.0
+- 2024.3.0
 libprotobuf:
 - 4.25.3
 libsentencepiece:
