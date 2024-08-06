@@ -97,6 +97,8 @@ outputs:
         - python                              # [build_platform != target_platform]
         - cross-python_{{ target_platform }}  # [build_platform != target_platform]
         - pip
+        - pip:
+          - py-build-cmake@git+https://github.com/tttapa/py-build-cmake@7ab73da351c7140f06d727a8705bece4cf544cd9
       host:
         - pip
         - python
