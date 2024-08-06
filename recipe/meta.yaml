@@ -84,7 +84,10 @@ outputs:
         - LICENSE
         - third-party-programs.txt
     build:
-      script: "PIP_NO_INDEX=False PIP_NO_DEPENDENCIES=False pip install . {{ install_args }}"  # [unix]
+      script_env:
+        - PIP_NO_INDEX=False
+        - PIP_NO_DEPENDENCIES=False
+      script: "$PYTHON -m pip install . {{ install_args }}"  # [unix]
       script: "%PYTHON% -m pip install . {{ install_args }}"  # [win]
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
       entry_points:
