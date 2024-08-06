@@ -84,9 +84,6 @@ outputs:
         - LICENSE
         - third-party-programs.txt
     build:
-      script_env:
-        - PIP_NO_INDEX=False
-        - PIP_NO_DEPENDENCIES=False
       script: "$PYTHON -m pip install . {{ install_args }}"  # [unix]
       script: "%PYTHON% -m pip install . {{ install_args }}"  # [win]
       string: py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
@@ -96,12 +93,11 @@ outputs:
       build:
         - python                              # [build_platform != target_platform]
         - cross-python_{{ target_platform }}  # [build_platform != target_platform]
-        - pip
-        - pip:
-          - py-build-cmake@git+https://github.com/tttapa/py-build-cmake@7ab73da351c7140f06d727a8705bece4cf544cd9
+        - cmake
       host:
         - pip
         - python
+        - py-build-cmake =0.2.0.dev20240805
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
