@@ -1,5 +1,5 @@
 {% set name = "openvino-tokenizers" %}
-{% set version = "2024.3.0" %}
+{% set version = "2024.4.1" %}
 
 # Libraries on Windows are expected to be installed into LIBRARY_PREFIX.
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
@@ -19,11 +19,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/b1b6f9c5a11cb01d134d58abab3f478c3b5f6174.tar.gz
-  sha256: 4ac65953d798058a54a6be5b4228570baded94da458f467ba424d57f113a9475
+  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 9f7471cc640a51f2a4dbd81449df53c124f3281998f86677148671efd0d7e988
 
 build:
-  number: 1
+  number: 0
 
 outputs:
   - name: libopenvino-tokenizers
@@ -56,7 +56,6 @@ outputs:
         - libabseil
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
-        - {{ pin_compatible('libopenvino-tensorflow-frontend', max_pin='x.x.x') }}
     test:
       requires:
         - {{ compiler('cxx') }}
