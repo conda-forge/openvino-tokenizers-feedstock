@@ -21,6 +21,8 @@ package:
 source:
   url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
   sha256: 908093826f3e11104de29e7e5235f299f9f3c22ff38595b59fcd3d33ff7a88a0
+  patches:
+  - patches/001-fixed-compilation-windoows.patch
 
 build:
   number: 0
