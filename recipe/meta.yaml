@@ -54,6 +54,7 @@ outputs:
         - libsentencepiece
         - libprotobuf
         - libabseil
+        - tbb-devel
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
     test:
