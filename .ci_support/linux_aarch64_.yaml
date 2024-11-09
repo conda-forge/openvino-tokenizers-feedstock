@@ -11,7 +11,7 @@ c_stdlib_version:
 cdt_arch:
 - aarch64
 cdt_name:
-- cos7
+- conda
 channel_sources:
 - conda-forge/label/py_build_cmake_dev,conda-forge
 channel_targets:
@@ -27,7 +27,7 @@ libabseil:
 libopenvino_dev:
 - 2024.4.0
 libprotobuf:
-- 5.27.5
+- 5.28.2
 libsentencepiece:
 - 0.2.0
 pin_run_as_build:
@@ -46,5 +46,3 @@ tbb_devel:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - c_stdlib_version
-  - cdt_name
