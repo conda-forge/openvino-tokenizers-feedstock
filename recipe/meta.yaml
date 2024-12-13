@@ -51,7 +51,6 @@ outputs:
         - cmake
       host:
         - libopenvino-dev ={{ version }}
-        - libsentencepiece
         - libprotobuf
         - libabseil
         - tbb-devel
