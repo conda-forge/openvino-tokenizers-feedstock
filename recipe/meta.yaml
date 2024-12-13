@@ -94,10 +94,14 @@ outputs:
         - {{ stdlib("c") }}
         - make  # [unix]
         - cmake
+        - libprotobuf  # [unix]
+        - libabseil  # [unix]
       host:
         - pip
         - python
         - py-build-cmake =0.2.0.dev20240805
+        - libprotobuf  # [unix]
+        - libabseil  # [unix]
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
