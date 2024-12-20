@@ -12,7 +12,7 @@
         {% set cmake_args = cmake_args + " -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
     {% endif %}
 {% endif %}
-{% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib -DCMAKE_REQUIRE_FIND_PACKAGE_sentencepiece=ON" %}
+{% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib -DUSE_ABI0=ON" %}
 
 package:
   name: {{ name|lower }}-split
@@ -53,7 +53,6 @@ outputs:
         - cmake
       host:
         - libopenvino-dev ={{ version }}
-        - libsentencepiece
         - libprotobuf
         - libabseil
         - tbb-devel
