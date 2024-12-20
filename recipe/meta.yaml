@@ -1,5 +1,5 @@
 {% set name = "openvino-tokenizers" %}
-{% set version = "2024.4.0" %}
+{% set version = "2024.5.0" %}
 
 # Libraries on Windows are expected to be installed into LIBRARY_PREFIX.
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
@@ -20,7 +20,7 @@ package:
 
 source:
   url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
-  sha256: 908093826f3e11104de29e7e5235f299f9f3c22ff38595b59fcd3d33ff7a88a0
+  sha256: 589667d1a1dde68268bc58e70e275343d78250063f41f4d3b068d3f9b168dbf6
   patches:
   - patches/001-fixed-compilation-windoows.patch
 
