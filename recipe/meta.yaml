@@ -99,7 +99,7 @@ outputs:
       host:
         - pip
         - python
-        - py-build-cmake =0.2.0.dev20240805
+        - py-build-cmake
         - libprotobuf  # [unix]
         - libabseil  # [unix]
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
