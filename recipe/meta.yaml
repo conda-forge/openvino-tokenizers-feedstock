@@ -12,7 +12,7 @@
         {% set cmake_args = cmake_args + " -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
     {% endif %}
 {% endif %}
-{% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
+{% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib -DSPM_PROTOBUF_PROVIDER=package -DSPM_ABSL_PROVIDER=package" %}
 
 package:
   name: {{ name|lower }}-split
@@ -21,6 +21,8 @@ package:
 source:
   url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
   sha256: 61c9ad45c4df92f1845b29f2215d96a9cccaa6a1d02b519bd8458707c5a7f173
+  patches:
+    - 001-system-protobuf-abseil.patch
 
 build:
   number: 0
@@ -51,6 +53,7 @@ outputs:
         - cmake
       host:
         - libopenvino-dev ={{ version }}
+        - libsentencepiece
         - libprotobuf
         - libabseil
         - tbb-devel
@@ -94,14 +97,10 @@ outputs:
         - {{ stdlib("c") }}
         - make  # [unix]
         - cmake
-        - libprotobuf  # [unix]
-        - libabseil  # [unix]
       host:
         - pip
         - python
         - py-build-cmake
-        - libprotobuf  # [unix]
-        - libabseil  # [unix]
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
         - {{ pin_subpackage('libopenvino-tokenizers', exact=True) }}
