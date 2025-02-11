@@ -11,6 +11,9 @@
     {% if target_platform != build_platform %}
         {% set cmake_args = cmake_args + " -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
     {% endif %}
+    {% if target_platform == "osx-64" %}
+        {% set cmake_args = cmake_args + " -DCMAKE_CXX_FLAGS=-D_LIBCPP_DISABLE_AVAILABILITY" %}
+    {% endif %}
 {% endif %}
 {% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
 
@@ -25,7 +28,7 @@ source:
     - 001-system-protobuf-abseil.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: libopenvino-tokenizers
@@ -51,6 +54,7 @@ outputs:
         - {{ stdlib("c") }}
         - make  # [unix]
         - cmake
+        - libprotobuf
       host:
         - libopenvino-dev ={{ version }}
         - libprotobuf
@@ -70,7 +74,7 @@ outputs:
         - test -f $PREFIX/lib/libopenvino_tokenizers${SHLIB_EXT}  # [unix]
         - if not exist %LIBRARY_BIN%\\openvino_tokenizers%SHLIB_EXT% exit 1  # [win]
 
-        - cmake -S samples -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
+        - cmake -S samples -B build -DCMAKE_CXX_FLAGS=-D_LIBCPP_DISABLE_AVAILABILITY -DCMAKE_BUILD_TYPE=Release -G Ninja
         - cmake --build build --parallel
         - ./build/hello_tokenizers  # [unix]
         - .\\build\\hello_tokenizers  # [win]
