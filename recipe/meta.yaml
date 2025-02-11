@@ -74,7 +74,7 @@ outputs:
         - test -f $PREFIX/lib/libopenvino_tokenizers${SHLIB_EXT}  # [unix]
         - if not exist %LIBRARY_BIN%\\openvino_tokenizers%SHLIB_EXT% exit 1  # [win]
 
-        - cmake -S samples -B build -DCMAKE_BUILD_TYPE=Release -G Ninja
+        - cmake -S samples -B build -DCMAKE_CXX_FLAGS=-D_LIBCPP_DISABLE_AVAILABILITY -DCMAKE_BUILD_TYPE=Release -G Ninja
         - cmake --build build --parallel
         - ./build/hello_tokenizers  # [unix]
         - .\\build\\hello_tokenizers  # [win]
