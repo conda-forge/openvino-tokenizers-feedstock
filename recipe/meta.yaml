@@ -12,7 +12,7 @@
         {% set cmake_args = cmake_args + " -DProtobuf_PROTOC_EXECUTABLE=$BUILD_PREFIX/bin/protoc" %}
     {% endif %}
     {% if target_platform == "osx-64" %}
-        {% set cmake_args = cmake_args + " -DCMAKE_CXX_FLAGS="-D_LIBCPP_DISABLE_AVAILABILITY" %}
+        {% set cmake_args = cmake_args + " -DCMAKE_CXX_FLAGS=-D_LIBCPP_DISABLE_AVAILABILITY" %}
     {% endif %}
 {% endif %}
 {% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
