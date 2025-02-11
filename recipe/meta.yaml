@@ -51,6 +51,7 @@ outputs:
         - {{ stdlib("c") }}
         - make  # [unix]
         - cmake
+        - libprotobuf
       host:
         - libopenvino-dev ={{ version }}
         - libprotobuf
