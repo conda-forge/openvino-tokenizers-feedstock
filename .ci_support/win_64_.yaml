@@ -1,5 +1,5 @@
 c_compiler:
-- vs2019
+- vs2022
 c_stdlib:
 - vs
 channel_sources:
@@ -7,11 +7,11 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2019
+- vs2022
 libabseil:
 - '20250127'
 libopenvino_dev:
-- 2025.0.0
+- 2025.2.0
 libprotobuf:
 - 5.29.3
 pin_run_as_build:

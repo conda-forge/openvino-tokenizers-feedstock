@@ -5,7 +5,7 @@ MACOSX_SDK_VERSION:
 c_compiler:
 - clang
 c_compiler_version:
-- '18'
+- '19'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -17,11 +17,11 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '18'
+- '19'
 libabseil:
 - '20250127'
 libopenvino_dev:
-- 2025.0.0
+- 2025.2.0
 libprotobuf:
 - 5.29.3
 macos_machine:
