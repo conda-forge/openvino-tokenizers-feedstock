@@ -28,7 +28,7 @@ source:
     - 001-system-protobuf-abseil.patch
 
 build:
-  number: 2
+  number: 3
 
 outputs:
   - name: libopenvino-tokenizers
