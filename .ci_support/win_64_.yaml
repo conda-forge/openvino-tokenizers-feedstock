@@ -11,7 +11,7 @@ cxx_compiler:
 libabseil:
 - '20250512'
 libopenvino_dev:
-- 2025.0.0
+- 2025.2.0
 libprotobuf:
 - 6.31.1
 pin_run_as_build:
