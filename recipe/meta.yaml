@@ -103,6 +103,7 @@ outputs:
       host:
         - pip
         - python
+        - setuptools
         - py-build-cmake
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
