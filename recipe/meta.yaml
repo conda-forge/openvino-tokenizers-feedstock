@@ -56,11 +56,13 @@ outputs:
         - cmake
         - libprotobuf
       host:
+        - bzip2
         - libopenvino-dev ={{ version }}
         - libprotobuf
         - libsentencepiece
         - libabseil
         - tbb-devel
+        - zlib
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
     test:
