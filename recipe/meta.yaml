@@ -40,7 +40,7 @@ outputs:
         - third-party-programs.txt
     build:
       script:
-        - cmake {{ cmake_args }} -S . -B build
+        - cmake {{ cmake_args }} -DENABLE_SYSTEM_ICU=ON -S . -B build
         - cmake --build build --parallel --config Release --verbose
         - cmake --install build --config Release
       ignore_run_exports_from:
@@ -57,6 +57,7 @@ outputs:
         - libprotobuf
       host:
         - bzip2
+        - icu
         - libopenvino-dev ={{ version }}
         - libprotobuf
         - libsentencepiece
