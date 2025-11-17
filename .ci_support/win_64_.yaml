@@ -1,3 +1,5 @@
+bzip2:
+- '1'
 c_compiler:
 - vs2022
 c_stdlib:
@@ -8,6 +10,8 @@ channel_targets:
 - conda-forge main
 cxx_compiler:
 - vs2022
+icu:
+- '75'
 libabseil:
 - '20250512'
 libopenvino_dev:
@@ -29,3 +33,5 @@ target_platform:
 - win-64
 tbb_devel:
 - '2021'
+zlib:
+- '1'

@@ -1,3 +1,5 @@
+bzip2:
+- '1'
 c_compiler:
 - gcc
 c_compiler_version:
@@ -16,6 +18,8 @@ cxx_compiler_version:
 - '14'
 docker_image:
 - quay.io/condaforge/linux-anvil-x86_64:alma9
+icu:
+- '75'
 libabseil:
 - '20250512'
 libopenvino_dev:
@@ -40,3 +44,5 @@ tbb_devel:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+zlib:
+- '1'
