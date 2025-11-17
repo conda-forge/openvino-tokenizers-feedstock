@@ -19,11 +19,11 @@ cxx_compiler:
 cxx_compiler_version:
 - '19'
 libabseil:
-- '20250127'
+- '20250512'
 libopenvino_dev:
 - 2025.2.0
 libprotobuf:
-- 5.29.3
+- 6.31.1
 libsentencepiece:
 - 0.2.1
 macos_machine:
