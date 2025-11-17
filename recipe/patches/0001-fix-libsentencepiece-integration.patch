@@ -1,4 +1,4 @@
-From c4cbadeb6a0dbb5b9ae1e8342d2bc8f897d9016a Mon Sep 17 00:00:00 2001
+From 67c7148198dabb370aa92a5b4055664886721784 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Mon, 17 Nov 2025 20:25:39 +1100
 Subject: [PATCH] fix libsentencepiece integration
@@ -7,11 +7,11 @@ use a newer sentencepiece than the currently latest v0.2.1, to be able to contro
 (un)vendoring of abseil when using private headers; diff to last version is negligible:
 https://github.com/google/sentencepiece/compare/v0.2.1..6dadda597b9e19ad3efb8890585f0b92266c7c0e
 ---
- src/CMakeLists.txt | 41 +++++++++++++++++++++++++++++------------
- 1 file changed, 29 insertions(+), 12 deletions(-)
+ src/CMakeLists.txt | 42 ++++++++++++++++++++++++++++++------------
+ 1 file changed, 30 insertions(+), 12 deletions(-)
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index bee07fe..c73f210 100644
+index bee07fe..1c22363 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
 @@ -74,10 +74,16 @@ else()
@@ -69,7 +69,7 @@ index bee07fe..c73f210 100644
  
    if(TARGET ${ICU_TARGET_NAME})
      foreach(sp_target sentencepiece sentencepiece_train)
-@@ -119,14 +137,13 @@ endif()
+@@ -119,14 +137,14 @@ endif()
  function(ov_tokenizers_link_sentencepiece TARGET_NAME)
    if(sentencepiece_FOUND)
      foreach(sp_target sentencepiece sentencepiece_train)
@@ -85,11 +85,12 @@ index bee07fe..c73f210 100644
 +    target_include_directories(${TARGET_NAME} SYSTEM PRIVATE
 +      "${sentencepiece_SOURCE_DIR}/src" # for "normalizer.h", used in various places, e.g. normalize_unicode.hpp
 +      "${sentencepiece_SOURCE_DIR}/third_party" # for "darts_clone/darts.h", used in unigram_tokenizer.hpp
++      "${sentencepiece_SOURCE_DIR}" # for "third_party/absl/", but see symlink replacement to actual abseil above
 +    )
    else()
      if(SPM_PROTOBUF_PROVIDER STREQUAL "internal")
        if(SPM_ABSL_PROVIDER STREQUAL "package")
-@@ -146,7 +163,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
+@@ -146,7 +164,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
          "${sentencepiece_SOURCE_DIR}" # for "third_party/absl/strings/string_view.h"
          "${sentencepiece_BINARY_DIR}/src" # for "sentencepiece_model.pb.h"
          )
