@@ -1,0 +1,80 @@
+From a0e635c33deb8e56e8c160d1d504d8fe820493e0 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Mon, 17 Nov 2025 20:25:39 +1100
+Subject: [PATCH] fix libsentencepiece integration
+
+---
+ src/CMakeLists.txt | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index bee07fe..d4a9f1e 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -74,10 +74,15 @@ else()
+   include(${PROJECT_SOURCE_DIR}/cmake/external/icu.cmake)
+ endif()
+ 
++find_package(sentencepiece REQUIRED)
++if(sentencepiece_FOUND)
++  find_package(absl REQUIRED)
++endif()
++
+ FetchContent_Declare(
+   sentencepiece
+-  URL      https://github.com/google/sentencepiece/archive/d8f741853847553169444afc12c00f4bbff3e9ce.tar.gz
+-  URL_HASH SHA256=1cf6e0713ecd04d1dd3328fdd388aa89c8ebab518a15e0886b54eadd8d228886
++  URL      https://github.com/google/sentencepiece/archive/refs/tags/v0.2.1.tar.gz
++  URL_HASH SHA256=c1a59e9259c9653ad0ade653dadff074cd31f0a6ff2a11316f67bee4189a8f1b
+ )
+ FetchContent_GetProperties(sentencepiece)
+ if(NOT sentencepiece_POPULATED)
+@@ -88,7 +93,7 @@ if(NOT sentencepiece_POPULATED)
+       set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
+       set(protobuf_MODULE_COMPATIBLE ON CACHE BOOL "Protobuf module compatible")
+   endif()
+-  if(openvino_installed_from_conda AND NOT WIN32)
++  if(openvino_installed_from_conda)
+       set(SPM_USE_BUILTIN_PROTOBUF OFF CACHE BOOL "")
+       set(SPM_PROTOBUF_PROVIDER "package" CACHE STRING "")
+       set(SPM_ABSL_PROVIDER "package" CACHE STRING "")
+@@ -98,12 +103,14 @@ if(NOT sentencepiece_POPULATED)
+       set(SPM_ABSL_PROVIDER "internal" CACHE STRING "")
+   endif()
+ 
+-  set(SPM_ENABLE_SHARED OFF CACHE BOOL "")
++  set(SPM_ENABLE_SHARED ON CACHE BOOL "")
+   set(SPM_ENABLE_TCMALLOC OFF CACHE BOOL "")
+   set(SPM_ENABLE_NFKC_COMPILE ON CACHE BOOL "Enable NFKC compile")
+ 
+   FetchContent_Populate(sentencepiece)
+-  add_subdirectory(${sentencepiece_SOURCE_DIR} ${sentencepiece_BINARY_DIR} EXCLUDE_FROM_ALL)
++  target_include_directories(${TARGET_NAME} SYSTEM PRIVATE
++    "${sentencepiece_SOURCE_DIR}/third_party/" # for "darts_clone/darts.h"
++  )
+ 
+   if(TARGET ${ICU_TARGET_NAME})
+     foreach(sp_target sentencepiece sentencepiece_train)
+@@ -119,12 +126,7 @@ endif()
+ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
+   if(sentencepiece_FOUND)
+     foreach(sp_target sentencepiece sentencepiece_train)
+-      if(TARGET ${sp_target}-static)
+-        # on Windows conda-forge builds sentencepiece as static library
+-        target_link_libraries(${TARGET_NAME} PRIVATE ${sp_target}-static)
+-      else()
+-        target_link_libraries(${TARGET_NAME} PRIVATE ${sp_target})
+-      endif()
++      target_link_libraries(${TARGET_NAME} PRIVATE ${sp_target})
+     endforeach()
+     target_link_libraries(${TARGET_NAME} PRIVATE absl::string_view absl::flat_hash_set)
+   else()
+@@ -146,7 +148,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
+         "${sentencepiece_SOURCE_DIR}" # for "third_party/absl/strings/string_view.h"
+         "${sentencepiece_BINARY_DIR}/src" # for "sentencepiece_model.pb.h"
+         )
+-      endif()
++    endif()
+ 
+     foreach(sp_target sentencepiece-static sentencepiece_train-static)
+       if(CMAKE_CL_64)
