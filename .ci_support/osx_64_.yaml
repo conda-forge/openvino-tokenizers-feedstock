@@ -24,6 +24,8 @@ libopenvino_dev:
 - 2025.2.0
 libprotobuf:
 - 5.29.3
+libsentencepiece:
+- 0.2.1
 macos_machine:
 - x86_64-apple-darwin13.4.0
 pin_run_as_build:

@@ -14,6 +14,8 @@ libopenvino_dev:
 - 2025.2.0
 libprotobuf:
 - 5.29.3
+libsentencepiece:
+- 0.2.1
 pin_run_as_build:
   python:
     min_pin: x.x
