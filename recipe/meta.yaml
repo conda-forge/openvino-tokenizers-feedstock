@@ -26,6 +26,7 @@ source:
   patches:
     - patches/0001-fix-libsentencepiece-integration.patch
     - patches/0002-fix-python-version-bounds.patch
+    - patches/0003-unvendor-re2-pcre2.patch
 
 build:
   number: 0
@@ -62,6 +63,8 @@ outputs:
         - libprotobuf
         - libsentencepiece
         - libabseil
+        - pcre2
+        - re2
         - tbb-devel
         - zlib
       run:
