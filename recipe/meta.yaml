@@ -56,6 +56,7 @@ outputs:
       host:
         - libopenvino-dev ={{ version }}
         - libprotobuf
+        - libsentencepiece
         - libabseil
         - tbb-devel
       run:
