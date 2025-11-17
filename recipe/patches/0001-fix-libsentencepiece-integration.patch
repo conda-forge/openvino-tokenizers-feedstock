@@ -1,17 +1,20 @@
-From 2d9989d76787bc623c0e11f11939e6e9112e95d2 Mon Sep 17 00:00:00 2001
+From 573834f22a9595cc0b48237f088fe61a8ad61ad0 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Mon, 17 Nov 2025 20:25:39 +1100
 Subject: [PATCH] fix libsentencepiece integration
 
+use a newer sentencepiece than the currently latest v0.2.1, to be able to control
+(un)vendoring of abseil when using private headers; diff to last version is negligible:
+https://github.com/google/sentencepiece/compare/v0.2.1..6dadda597b9e19ad3efb8890585f0b92266c7c0e
 ---
- src/CMakeLists.txt | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ src/CMakeLists.txt | 41 +++++++++++++++++++++++++++++------------
+ 1 file changed, 29 insertions(+), 12 deletions(-)
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index bee07fe..47a6624 100644
+index bee07fe..0825767 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -74,10 +74,15 @@ else()
+@@ -74,10 +74,16 @@ else()
    include(${PROJECT_SOURCE_DIR}/cmake/external/icu.cmake)
  endif()
  
@@ -24,12 +27,13 @@ index bee07fe..47a6624 100644
    sentencepiece
 -  URL      https://github.com/google/sentencepiece/archive/d8f741853847553169444afc12c00f4bbff3e9ce.tar.gz
 -  URL_HASH SHA256=1cf6e0713ecd04d1dd3328fdd388aa89c8ebab518a15e0886b54eadd8d228886
-+  URL      https://github.com/google/sentencepiece/archive/refs/tags/v0.2.1.tar.gz
-+  URL_HASH SHA256=c1a59e9259c9653ad0ade653dadff074cd31f0a6ff2a11316f67bee4189a8f1b
++  # post v0.2.1 to include https://github.com/google/sentencepiece/commit/6dadda597b9e19ad3efb8890585f0b92266c7c0e
++  URL      https://github.com/google/sentencepiece/archive/6dadda597b9e19ad3efb8890585f0b92266c7c0e.tar.gz
++  URL_HASH SHA256=e291e0d390868ec4380e2a50611296195183d54d416998f7787f2a187eb78d31
  )
  FetchContent_GetProperties(sentencepiece)
  if(NOT sentencepiece_POPULATED)
-@@ -88,7 +93,7 @@ if(NOT sentencepiece_POPULATED)
+@@ -88,7 +94,7 @@ if(NOT sentencepiece_POPULATED)
        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
        set(protobuf_MODULE_COMPATIBLE ON CACHE BOOL "Protobuf module compatible")
    endif()
@@ -38,7 +42,7 @@ index bee07fe..47a6624 100644
        set(SPM_USE_BUILTIN_PROTOBUF OFF CACHE BOOL "")
        set(SPM_PROTOBUF_PROVIDER "package" CACHE STRING "")
        set(SPM_ABSL_PROVIDER "package" CACHE STRING "")
-@@ -98,12 +103,11 @@ if(NOT sentencepiece_POPULATED)
+@@ -98,12 +104,24 @@ if(NOT sentencepiece_POPULATED)
        set(SPM_ABSL_PROVIDER "internal" CACHE STRING "")
    endif()
  
@@ -46,13 +50,26 @@ index bee07fe..47a6624 100644
 +  set(SPM_ENABLE_SHARED ON CACHE BOOL "")
    set(SPM_ENABLE_TCMALLOC OFF CACHE BOOL "")
    set(SPM_ENABLE_NFKC_COMPILE ON CACHE BOOL "Enable NFKC compile")
++  # internal sentencepiece macros we need to set due to use of private sentencepiece headers
++  set(_USE_EXTERNAL_ABSL ON)
++  set(_USE_EXTERNAL_PROTOBUF ON)
++
++  # vendored from https://github.com/google/sentencepiece/blob/v0.2.1/CMakeLists.txt#L184-L192
++  find_package(absl REQUIRED)
++  get_target_property(ABSL_INCLUDE_DIRS absl::base INTERFACE_INCLUDE_DIRECTORIES)
++  if (NOT EXISTS ${sentencepiece_SOURCE_DIR}/third_party/absl.org)
++    file(RENAME ${sentencepiece_SOURCE_DIR}/third_party/absl ${sentencepiece_SOURCE_DIR}/third_party/absl.org)
++    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
++        ${ABSL_INCLUDE_DIRS}/absl ${sentencepiece_SOURCE_DIR}/third_party/absl)
++  endif()
++  include_directories(${ABSL_INCLUDE_DIRS})
  
    FetchContent_Populate(sentencepiece)
 -  add_subdirectory(${sentencepiece_SOURCE_DIR} ${sentencepiece_BINARY_DIR} EXCLUDE_FROM_ALL)
  
    if(TARGET ${ICU_TARGET_NAME})
      foreach(sp_target sentencepiece sentencepiece_train)
-@@ -119,14 +123,12 @@ endif()
+@@ -119,14 +137,13 @@ endif()
  function(ov_tokenizers_link_sentencepiece TARGET_NAME)
    if(sentencepiece_FOUND)
      foreach(sp_target sentencepiece sentencepiece_train)
@@ -66,12 +83,13 @@ index bee07fe..47a6624 100644
      endforeach()
      target_link_libraries(${TARGET_NAME} PRIVATE absl::string_view absl::flat_hash_set)
 +    target_include_directories(${TARGET_NAME} SYSTEM PRIVATE
-+      "${sentencepiece_SOURCE_DIR}/third_party/" # for "darts_clone/darts.h"
++      "${sentencepiece_SOURCE_DIR}/src" # for "normalizer.h", used in various places, e.g. normalize_unicode.hpp
++      "${sentencepiece_SOURCE_DIR}/third_party" # for "darts_clone/darts.h", used in unigram_tokenizer.hpp
 +    )
    else()
      if(SPM_PROTOBUF_PROVIDER STREQUAL "internal")
        if(SPM_ABSL_PROVIDER STREQUAL "package")
-@@ -146,7 +148,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
+@@ -146,7 +163,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
          "${sentencepiece_SOURCE_DIR}" # for "third_party/absl/strings/string_view.h"
          "${sentencepiece_BINARY_DIR}/src" # for "sentencepiece_model.pb.h"
          )
