@@ -222,6 +222,7 @@ Feedstock Maintainers
 =====================
 
 * [@apaniukov](https://github.com/apaniukov/)
+* [@h-vetinari](https://github.com/h-vetinari/)
 * [@ilya-lavrenov](https://github.com/ilya-lavrenov/)
 * [@mryzhov](https://github.com/mryzhov/)
 
