@@ -1,4 +1,3 @@
-{% set name = "openvino-tokenizers" %}
 {% set version = "2025.2.0" %}
 
 # Libraries on Windows are expected to be installed into LIBRARY_PREFIX.
@@ -18,7 +17,7 @@
 {% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
 
 package:
-  name: {{ name|lower }}-split
+  name: openvino-tokenizers-split
   version: {{ version }}
 
 source:
