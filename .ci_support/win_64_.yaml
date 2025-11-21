@@ -20,6 +20,8 @@ libprotobuf:
 - 6.31.1
 libsentencepiece:
 - 0.2.1
+pcre2:
+- '10.47'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -29,6 +31,8 @@ python:
 - 3.11.* *_cpython
 - 3.12.* *_cpython
 - 3.13.* *_cp313
+re2:
+- 2025.08.12
 target_platform:
 - win-64
 tbb_devel:
