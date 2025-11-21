@@ -1,0 +1,134 @@
+From b2f5007038e42c36af04b128cf18e2b42f061fcb Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Tue, 18 Nov 2025 09:41:13 +1100
+Subject: [PATCH 3/3] unvendor re2 & pcre2
+
+---
+ src/CMakeLists.txt | 93 +++++++++++++++++++++++++---------------------
+ 1 file changed, 50 insertions(+), 43 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 1c22363..03f4ad1 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -81,9 +81,8 @@ endif()
+ 
+ FetchContent_Declare(
+   sentencepiece
+-  # post v0.2.1 to include https://github.com/google/sentencepiece/commit/6dadda597b9e19ad3efb8890585f0b92266c7c0e
+-  URL      https://github.com/google/sentencepiece/archive/6dadda597b9e19ad3efb8890585f0b92266c7c0e.tar.gz
+-  URL_HASH SHA256=e291e0d390868ec4380e2a50611296195183d54d416998f7787f2a187eb78d31
++  URL      https://github.com/google/sentencepiece/archive/refs/tags/v0.2.1.tar.gz
++  URL_HASH SHA256=c1a59e9259c9653ad0ade653dadff074cd31f0a6ff2a11316f67bee4189a8f1b
+ )
+ FetchContent_GetProperties(sentencepiece)
+ if(NOT sentencepiece_POPULATED)
+@@ -107,9 +106,6 @@ if(NOT sentencepiece_POPULATED)
+   set(SPM_ENABLE_SHARED ON CACHE BOOL "")
+   set(SPM_ENABLE_TCMALLOC OFF CACHE BOOL "")
+   set(SPM_ENABLE_NFKC_COMPILE ON CACHE BOOL "Enable NFKC compile")
+-  # internal sentencepiece macros we need to set due to use of private sentencepiece headers
+-  set(_USE_EXTERNAL_ABSL ON)
+-  set(_USE_EXTERNAL_PROTOBUF ON)
+ 
+   FetchContent_Populate(sentencepiece)
+ 
+@@ -182,50 +178,61 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
+   endif()
+ endfunction()
+ 
+-function(ov_tokenizers_build_static_re2)
+-  FetchContent_Declare(
+-    re2
+-    URL      https://github.com/google/re2/archive/refs/tags/2022-04-01.tar.gz
+-    URL_HASH SHA256=1ae8ccfdb1066a731bba6ee0881baad5efd2cd661acd9569b689f2586e1a50e9
+-  )
+-  set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+-  set(BUILD_SHARED_LIBS OFF)
+-  set(RE2_BUILD_TESTING OFF)
+-  FetchContent_GetProperties(re2)
+-  if(NOT re2_POPULATED)
+-    FetchContent_Populate(re2)
+-    add_subdirectory(${re2_SOURCE_DIR} ${re2_BINARY_DIR} EXCLUDE_FROM_ALL)
+-  endif()
++find_package(re2)
+ 
+-  # to propogate _GLIBCXX_USE_CXX11_ABI value
+-  target_compile_definitions(re2 PUBLIC $<TARGET_PROPERTY:openvino::runtime,INTERFACE_COMPILE_DEFINITIONS>)
+-endfunction()
++if(NOT re2_FOUND)
++  function(ov_tokenizers_build_static_re2)
++    FetchContent_Declare(
++      re2
++      URL      https://github.com/google/re2/archive/refs/tags/2022-04-01.tar.gz
++      URL_HASH SHA256=1ae8ccfdb1066a731bba6ee0881baad5efd2cd661acd9569b689f2586e1a50e9
++    )
++    set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
++    set(BUILD_SHARED_LIBS OFF)
++    set(RE2_BUILD_TESTING OFF)
++    FetchContent_GetProperties(re2)
++    if(NOT re2_POPULATED)
++      FetchContent_Populate(re2)
++      add_subdirectory(${re2_SOURCE_DIR} ${re2_BINARY_DIR} EXCLUDE_FROM_ALL)
++    endif()
+ 
+-ov_tokenizers_build_static_re2()
++    # to propogate _GLIBCXX_USE_CXX11_ABI value
++    target_compile_definitions(re2 PUBLIC $<TARGET_PROPERTY:openvino::runtime,INTERFACE_COMPILE_DEFINITIONS>)
++  endfunction()
++
++  ov_tokenizers_build_static_re2()
++endif()
++
++find_package(PCRE2 CONFIG)
+ 
+ function(ov_tokenizers_link_pcre2 TARGET_NAME)
+-  FetchContent_Declare(
+-      prce2
+-      URL https://github.com/PCRE2Project/pcre2/archive/refs/tags/pcre2-10.44.zip
+-      URL_HASH SHA256=2d87bd1700bd1993ddea7c56aad2b0373ac2b3d52d9cc78842a6d061ffaf0925
+-  )
+-  FetchContent_GetProperties(prce2)
+-  if(NOT prce2_POPULATED)
+-    FetchContent_Populate(prce2)
++  if(PCRE2_FOUND)
++    target_link_libraries(${TARGET_NAME} PRIVATE PCRE2::8BIT)
++    target_compile_definitions(${TARGET_NAME} PRIVATE PCRE2_CODE_UNIT_WIDTH=8)
++  else()
++    FetchContent_Declare(
++        prce2
++        URL https://github.com/PCRE2Project/pcre2/archive/refs/tags/pcre2-10.44.zip
++        URL_HASH SHA256=2d87bd1700bd1993ddea7c56aad2b0373ac2b3d52d9cc78842a6d061ffaf0925
++    )
++    FetchContent_GetProperties(prce2)
++    if(NOT prce2_POPULATED)
++      FetchContent_Populate(prce2)
+ 
+-    set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+-    set(CMAKE_POLICY_DEFAULT_CMP0126 NEW)
+-    set(PCRE2_SUPPORT_JIT ON)
+-    set(PCRE2_STATIC_PIC ON)
+-    set(PCRE2_BUILD_TESTS OFF)
+-    set(PCRE2_BUILD_PCRE2GREP OFF)
++      set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
++      set(CMAKE_POLICY_DEFAULT_CMP0126 NEW)
++      set(PCRE2_SUPPORT_JIT ON)
++      set(PCRE2_STATIC_PIC ON)
++      set(PCRE2_BUILD_TESTS OFF)
++      set(PCRE2_BUILD_PCRE2GREP OFF)
+ 
+-    add_subdirectory(${prce2_SOURCE_DIR} ${prce2_BINARY_DIR} EXCLUDE_FROM_ALL)
++      add_subdirectory(${prce2_SOURCE_DIR} ${prce2_BINARY_DIR} EXCLUDE_FROM_ALL)
++    endif()
++
++    target_include_directories(${TARGET_NAME} SYSTEM PRIVATE ${pcre2_BINARY_DIR})
++    target_link_libraries(${TARGET_NAME} PRIVATE pcre2-8)
++    target_compile_definitions(${TARGET_NAME} PRIVATE PCRE2_CODE_UNIT_WIDTH=8)
+   endif()
+-
+-  target_include_directories(${TARGET_NAME} SYSTEM PRIVATE ${pcre2_BINARY_DIR})
+-  target_link_libraries(${TARGET_NAME} PRIVATE pcre2-8)
+-  target_compile_definitions(${TARGET_NAME} PRIVATE PCRE2_CODE_UNIT_WIDTH=8)
+ endfunction()
+ 
+ function(ov_tokenizers_link_re2 TARGET_NAME)
