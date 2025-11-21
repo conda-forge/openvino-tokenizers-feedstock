@@ -1,17 +1,17 @@
-From ecc165faa38d0cdbbfc07528df43e87e392fdbe5 Mon Sep 17 00:00:00 2001
+From 1d7a68e052ac9d4ff04264001d1f4a9aabf5ce95 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Tue, 18 Nov 2025 09:41:13 +1100
 Subject: [PATCH 3/3] unvendor re2 & pcre2
 
 ---
- src/CMakeLists.txt | 84 ++++++++++++++++++++++++++--------------------
- 1 file changed, 47 insertions(+), 37 deletions(-)
+ src/CMakeLists.txt | 85 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 48 insertions(+), 37 deletions(-)
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 1c22363..35f3cbc 100644
+index 1c22363..95f1241 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -182,50 +182,60 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
+@@ -182,50 +182,61 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
    endif()
  endfunction()
  
@@ -71,6 +71,7 @@ index 1c22363..35f3cbc 100644
 -    FetchContent_Populate(prce2)
 +  if(PCRE2_FOUND)
 +    target_link_libraries(${TARGET_NAME} PRIVATE PCRE2::8BIT)
++    target_compile_definitions(${TARGET_NAME} PRIVATE PCRE2_CODE_UNIT_WIDTH=8)
 +  else()
 +    FetchContent_Declare(
 +        prce2
