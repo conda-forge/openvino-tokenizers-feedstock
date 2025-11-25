@@ -1,5 +1,4 @@
-{% set name = "openvino-tokenizers" %}
-{% set version = "2025.0.0" %}
+{% set version = "2025.2.0" %}
 
 # Libraries on Windows are expected to be installed into LIBRARY_PREFIX.
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
@@ -18,17 +17,18 @@
 {% set cmake_args = cmake_args + " -DOPENVINO_TOKENIZERS_INSTALL_BINDIR=bin -DOPENVINO_TOKENIZERS_INSTALL_LIBDIR=lib" %}
 
 package:
-  name: {{ name|lower }}-split
+  name: openvino-tokenizers-split
   version: {{ version }}
 
 source:
   url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
-  sha256: 61c9ad45c4df92f1845b29f2215d96a9cccaa6a1d02b519bd8458707c5a7f173
+  sha256: 0c37cbd15e961a274d1dc841859df10f235e0a257acd68c4f3ca3072b2a7c1c9
   patches:
-    - 001-system-protobuf-abseil.patch
+    - patches/0001-fix-libsentencepiece-integration.patch
+    - patches/0002-fix-python-version-bounds.patch
 
 build:
-  number: 2
+  number: 0
 
 outputs:
   - name: libopenvino-tokenizers
@@ -40,7 +40,7 @@ outputs:
         - third-party-programs.txt
     build:
       script:
-        - cmake {{ cmake_args }} -S . -B build
+        - cmake {{ cmake_args }} -DENABLE_SYSTEM_ICU=ON -S . -B build
         - cmake --build build --parallel --config Release --verbose
         - cmake --install build --config Release
       ignore_run_exports_from:
@@ -56,10 +56,14 @@ outputs:
         - cmake
         - libprotobuf
       host:
+        - bzip2
+        - icu
         - libopenvino-dev ={{ version }}
         - libprotobuf
+        - libsentencepiece
         - libabseil
         - tbb-devel
+        - zlib
       run:
         - {{ pin_compatible('libopenvino', max_pin='x.x.x') }}
     test:
@@ -103,6 +107,7 @@ outputs:
       host:
         - pip
         - python
+        - setuptools
         - py-build-cmake
         - libopenvino-python ={{ version }} # dummy dependency, because pyproject.toml contains 'openvino' dependency
       run:
@@ -136,3 +141,4 @@ extra:
     - ilya-lavrenov
     - mryzhov
     - apaniukov
+    - h-vetinari

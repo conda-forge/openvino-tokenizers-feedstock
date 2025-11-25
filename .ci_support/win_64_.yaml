@@ -1,5 +1,7 @@
+bzip2:
+- '1'
 c_compiler:
-- vs2019
+- vs2022
 c_stdlib:
 - vs
 channel_sources:
@@ -7,13 +9,17 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2019
+- vs2022
+icu:
+- '75'
 libabseil:
-- '20250127'
+- '20250512'
 libopenvino_dev:
-- 2025.0.0
+- 2025.2.0
 libprotobuf:
-- 5.29.3
+- 6.31.1
+libsentencepiece:
+- 0.2.1
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -23,8 +29,9 @@ python:
 - 3.11.* *_cpython
 - 3.12.* *_cpython
 - 3.13.* *_cp313
-- 3.9.* *_cpython
 target_platform:
 - win-64
 tbb_devel:
 - '2021'
+zlib:
+- '1'

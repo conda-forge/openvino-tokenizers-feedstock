@@ -1,0 +1,23 @@
+From a604affa7a65c7c4434777bc2fcfe87b2493c97c Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Tue, 18 Nov 2025 09:41:52 +1100
+Subject: [PATCH 2/2] fix python version bounds
+
+because, contrary to intuition, `3.13.9` is NOT `<=3.13`
+---
+ pyproject.toml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pyproject.toml b/pyproject.toml
+index 5cb8cbf..7c782a3 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -2,7 +2,7 @@
+ name = "openvino-tokenizers"
+ version = "2025.2.0.0"
+ description = "Convert tokenizers into OpenVINO models"
+-requires-python = ">=3.9,<=3.13"
++requires-python = ">=3.9,<3.14"
+ readme = { file = "README.md", content-type="text/markdown" }
+ license = { "text" = "Apache-2.0" }
+ license-files = [
