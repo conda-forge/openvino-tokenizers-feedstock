@@ -28,7 +28,7 @@ source:
     - patches/0002-fix-python-version-bounds.patch
 
 build:
-  number: 0
+  number: 1
 
 outputs:
   - name: libopenvino-tokenizers
