@@ -1,4 +1,4 @@
-{% set version = "2025.2.0" %}
+{% set version = "2025.3.0.0" %}
 
 # Libraries on Windows are expected to be installed into LIBRARY_PREFIX.
 # See https://docs.conda.io/projects/conda-build/en/latest/user-guide/environment-variables.html.
@@ -18,14 +18,13 @@
 
 package:
   name: openvino-tokenizers-split
-  version: {{ version }}
+  version: {{ ".".join(version.split(".")[:3]) }}
 
 source:
-  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.0.tar.gz
-  sha256: 0c37cbd15e961a274d1dc841859df10f235e0a257acd68c4f3ca3072b2a7c1c9
+  url: https://github.com/openvinotoolkit/openvino_tokenizers/archive/refs/tags/{{ version }}.tar.gz
+  sha256: edf27839556a9811340570c8224475a7e12d594d75968b328e67909256d39ad3
   patches:
     - patches/0001-fix-libsentencepiece-integration.patch
-    - patches/0002-fix-python-version-bounds.patch
 
 build:
   number: 0

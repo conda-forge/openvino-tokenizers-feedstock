@@ -15,7 +15,7 @@ icu:
 libabseil:
 - '20250512'
 libopenvino_dev:
-- 2025.2.0
+- 2025.3.0
 libprotobuf:
 - 6.31.1
 libsentencepiece:
@@ -32,6 +32,6 @@ python:
 target_platform:
 - win-64
 tbb_devel:
-- '2021'
+- '2022'
 zlib:
 - '1'
