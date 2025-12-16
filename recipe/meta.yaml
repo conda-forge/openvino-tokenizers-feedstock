@@ -25,7 +25,6 @@ source:
   sha256: edf27839556a9811340570c8224475a7e12d594d75968b328e67909256d39ad3
   patches:
     - patches/0001-fix-libsentencepiece-integration.patch
-    - patches/0002-fix-python-version-bounds.patch
 
 build:
   number: 0
