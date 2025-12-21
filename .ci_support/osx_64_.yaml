@@ -21,7 +21,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '19'
 icu:
-- '75'
+- '78'
 libabseil:
 - '20250512'
 libopenvino_dev:
