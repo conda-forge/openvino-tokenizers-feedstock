@@ -1,4 +1,4 @@
-From 4a6466e2a2b85e1b79ac0c6e65504e58f5cc68da Mon Sep 17 00:00:00 2001
+From db4a4d80c6399f35c1892043d8a1a5c5275def02 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Mon, 17 Nov 2025 20:25:39 +1100
 Subject: [PATCH] fix libsentencepiece integration
@@ -7,14 +7,14 @@ use a newer sentencepiece than the currently latest v0.2.1, to be able to contro
 (un)vendoring of abseil when using private headers; diff to last version is negligible:
 https://github.com/google/sentencepiece/compare/v0.2.1..6dadda597b9e19ad3efb8890585f0b92266c7c0e
 ---
- src/CMakeLists.txt | 42 ++++++++++++++++++++++++++++++------------
- 1 file changed, 30 insertions(+), 12 deletions(-)
+ src/CMakeLists.txt | 43 ++++++++++++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 7eac1272..30fe730e 100644
+index ae334e12..022f3068 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -74,10 +74,16 @@ else()
+@@ -74,10 +74,15 @@ else()
    include(${PROJECT_SOURCE_DIR}/cmake/external/icu.cmake)
  endif()
  
@@ -25,15 +25,14 @@ index 7eac1272..30fe730e 100644
 +
  FetchContent_Declare(
    sentencepiece
--  URL      https://github.com/google/sentencepiece/archive/d8f741853847553169444afc12c00f4bbff3e9ce.tar.gz
--  URL_HASH SHA256=1cf6e0713ecd04d1dd3328fdd388aa89c8ebab518a15e0886b54eadd8d228886
-+  # post v0.2.1 to include https://github.com/google/sentencepiece/commit/6dadda597b9e19ad3efb8890585f0b92266c7c0e
-+  URL      https://github.com/google/sentencepiece/archive/6dadda597b9e19ad3efb8890585f0b92266c7c0e.tar.gz
-+  URL_HASH SHA256=e291e0d390868ec4380e2a50611296195183d54d416998f7787f2a187eb78d31
+-  URL      https://github.com/google/sentencepiece/releases/download/v0.2.1/sentencepiece-0.2.1.tar.gz
+-  URL_HASH SHA256=8138cec27c2f2282f4a34d9a016e3374cd40e5c6e9cb335063db66a0a3b71fad
++  URL      https://github.com/google/sentencepiece/archive/refs/tags/v0.2.1.tar.gz
++  URL_HASH SHA256=c1a59e9259c9653ad0ade653dadff074cd31f0a6ff2a11316f67bee4189a8f1b
  )
  FetchContent_GetProperties(sentencepiece)
  if(NOT sentencepiece_POPULATED)
-@@ -88,7 +94,7 @@ if(NOT sentencepiece_POPULATED)
+@@ -88,7 +93,7 @@ if(NOT sentencepiece_POPULATED)
        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
        set(protobuf_MODULE_COMPATIBLE ON CACHE BOOL "Protobuf module compatible")
    endif()
@@ -42,7 +41,7 @@ index 7eac1272..30fe730e 100644
        set(SPM_USE_BUILTIN_PROTOBUF OFF CACHE BOOL "")
        set(SPM_PROTOBUF_PROVIDER "package" CACHE STRING "")
        set(SPM_ABSL_PROVIDER "package" CACHE STRING "")
-@@ -98,12 +104,24 @@ if(NOT sentencepiece_POPULATED)
+@@ -98,7 +103,7 @@ if(NOT sentencepiece_POPULATED)
        set(SPM_ABSL_PROVIDER "internal" CACHE STRING "")
    endif()
  
@@ -50,13 +49,19 @@ index 7eac1272..30fe730e 100644
 +  set(SPM_ENABLE_SHARED ON CACHE BOOL "")
    set(SPM_ENABLE_TCMALLOC OFF CACHE BOOL "")
    set(SPM_ENABLE_NFKC_COMPILE ON CACHE BOOL "Enable NFKC compile")
-+  # internal sentencepiece macros we need to set due to use of private sentencepiece headers
-+  set(_USE_EXTERNAL_ABSL ON)
-+  set(_USE_EXTERNAL_PROTOBUF ON)
  
-   FetchContent_Populate(sentencepiece)
--  add_subdirectory(${sentencepiece_SOURCE_DIR} ${sentencepiece_BINARY_DIR} EXCLUDE_FROM_ALL)
-+
+@@ -120,15 +125,15 @@ if(NOT sentencepiece_POPULATED)
+     endif()
+   endif()
+ 
+-  if(EXISTS "${_sp_src}/CMakeLists.txt")
+-    if(NOT _sp_src STREQUAL sentencepiece_SOURCE_DIR)
+-      message(STATUS "Adjusted sentencepiece source dir to: ${_sp_src}")
+-      # don't rely on changing the cached FetchContent variable; use _sp_src directly
+-    endif()
+-    add_subdirectory("${_sp_src}" "${sentencepiece_BINARY_DIR}" EXCLUDE_FROM_ALL)
+-  else()
+-    message(WARNING "SentencePiece source does not contain CMakeLists.txt; skipping add_subdirectory().")
 +  # vendored from https://github.com/google/sentencepiece/blob/v0.2.1/CMakeLists.txt#L184-L192
 +  find_package(absl REQUIRED)
 +  get_target_property(ABSL_INCLUDE_DIRS absl::base INTERFACE_INCLUDE_DIRECTORIES)
@@ -64,12 +69,12 @@ index 7eac1272..30fe730e 100644
 +    file(RENAME ${sentencepiece_SOURCE_DIR}/third_party/absl ${sentencepiece_SOURCE_DIR}/third_party/absl.org)
 +    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
 +        ${ABSL_INCLUDE_DIRS}/absl ${sentencepiece_SOURCE_DIR}/third_party/absl)
-+  endif()
+   endif()
 +  include_directories(${ABSL_INCLUDE_DIRS})
  
    if(TARGET ${ICU_TARGET_NAME})
      foreach(sp_target sentencepiece sentencepiece_train)
-@@ -119,14 +137,14 @@ endif()
+@@ -144,14 +149,14 @@ endif()
  function(ov_tokenizers_link_sentencepiece TARGET_NAME)
    if(sentencepiece_FOUND)
      foreach(sp_target sentencepiece sentencepiece_train)
@@ -90,8 +95,8 @@ index 7eac1272..30fe730e 100644
    else()
      if(SPM_PROTOBUF_PROVIDER STREQUAL "internal")
        if(SPM_ABSL_PROVIDER STREQUAL "package")
-@@ -146,7 +164,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
-         "${sentencepiece_SOURCE_DIR}" # for "third_party/absl/strings/string_view.h"
+@@ -171,7 +176,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
+         "${_sp_src}" # for "third_party/absl/strings/string_view.h"
          "${sentencepiece_BINARY_DIR}/src" # for "sentencepiece_model.pb.h"
          )
 -      endif()
