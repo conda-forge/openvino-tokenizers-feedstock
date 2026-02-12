@@ -21,11 +21,11 @@ docker_image:
 icu:
 - '78'
 libabseil:
-- '20250512'
+- '20260107'
 libopenvino_dev:
 - 2025.4.1
 libprotobuf:
-- 6.31.1
+- 6.33.5
 libsentencepiece:
 - 0.2.1
 pin_run_as_build:
