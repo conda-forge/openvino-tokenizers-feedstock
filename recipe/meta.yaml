@@ -27,7 +27,7 @@ source:
     - patches/0001-fix-libsentencepiece-integration.patch
 
 build:
-  number: 2
+  number: 3
 
 outputs:
   - name: libopenvino-tokenizers
