@@ -1,4 +1,4 @@
-From db4a4d80c6399f35c1892043d8a1a5c5275def02 Mon Sep 17 00:00:00 2001
+From 97210094c21880f12a789bec9a840471cc2836e6 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Mon, 17 Nov 2025 20:25:39 +1100
 Subject: [PATCH] fix libsentencepiece integration
@@ -7,16 +7,16 @@ use a newer sentencepiece than the currently latest v0.2.1, to be able to contro
 (un)vendoring of abseil when using private headers; diff to last version is negligible:
 https://github.com/google/sentencepiece/compare/v0.2.1..6dadda597b9e19ad3efb8890585f0b92266c7c0e
 ---
- src/CMakeLists.txt | 43 ++++++++++++++++++++++++-------------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+ src/CMakeLists.txt | 45 ++++++++++++++++++++++++++-------------------
+ 1 file changed, 26 insertions(+), 19 deletions(-)
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index ae334e12..022f3068 100644
+index 0a96c670..86c20051 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -74,10 +74,15 @@ else()
-   include(${PROJECT_SOURCE_DIR}/cmake/external/icu.cmake)
- endif()
+@@ -72,10 +72,15 @@ include(FetchContent)
+ # This option must be defined early because it affects SentencePiece configuration
+ option(REGENERATE_PRECOMPILED_CHARSMAP "Regenerate the precompiled charsmap header (requires ICU at build time)" OFF)
  
 +find_package(sentencepiece REQUIRED)
 +if(sentencepiece_FOUND)
@@ -32,7 +32,7 @@ index ae334e12..022f3068 100644
  )
  FetchContent_GetProperties(sentencepiece)
  if(NOT sentencepiece_POPULATED)
-@@ -88,7 +93,7 @@ if(NOT sentencepiece_POPULATED)
+@@ -86,7 +91,7 @@ if(NOT sentencepiece_POPULATED)
        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
        set(protobuf_MODULE_COMPATIBLE ON CACHE BOOL "Protobuf module compatible")
    endif()
@@ -41,16 +41,16 @@ index ae334e12..022f3068 100644
        set(SPM_USE_BUILTIN_PROTOBUF OFF CACHE BOOL "")
        set(SPM_PROTOBUF_PROVIDER "package" CACHE STRING "")
        set(SPM_ABSL_PROVIDER "package" CACHE STRING "")
-@@ -98,7 +103,7 @@ if(NOT sentencepiece_POPULATED)
+@@ -96,7 +101,7 @@ if(NOT sentencepiece_POPULATED)
        set(SPM_ABSL_PROVIDER "internal" CACHE STRING "")
    endif()
  
 -  set(SPM_ENABLE_SHARED OFF CACHE BOOL "")
 +  set(SPM_ENABLE_SHARED ON CACHE BOOL "")
    set(SPM_ENABLE_TCMALLOC OFF CACHE BOOL "")
-   set(SPM_ENABLE_NFKC_COMPILE ON CACHE BOOL "Enable NFKC compile")
- 
-@@ -120,15 +125,15 @@ if(NOT sentencepiece_POPULATED)
+   # NFKC compile requires ICU and is only needed for charsmap generation
+   if(REGENERATE_PRECOMPILED_CHARSMAP)
+@@ -123,27 +128,29 @@ if(NOT sentencepiece_POPULATED)
      endif()
    endif()
  
@@ -72,20 +72,19 @@ index ae334e12..022f3068 100644
    endif()
 +  include_directories(${ABSL_INCLUDE_DIRS})
  
-   if(TARGET ${ICU_TARGET_NAME})
-     foreach(sp_target sentencepiece sentencepiece_train)
-@@ -144,14 +149,14 @@ endif()
+ endif()
+ 
  function(ov_tokenizers_link_sentencepiece TARGET_NAME)
    if(sentencepiece_FOUND)
-     foreach(sp_target sentencepiece sentencepiece_train)
--      if(TARGET ${sp_target}-static)
--        # on Windows conda-forge builds sentencepiece as static library
--        target_link_libraries(${TARGET_NAME} PRIVATE ${sp_target}-static)
--      else()
--        target_link_libraries(${TARGET_NAME} PRIVATE ${sp_target})
--      endif()
+-    if(TARGET sentencepiece-static)
+-      # on Windows conda-forge builds sentencepiece as static library
+-      target_link_libraries(${TARGET_NAME} PRIVATE sentencepiece-static)
+-    else()
+-      target_link_libraries(${TARGET_NAME} PRIVATE sentencepiece)
+-    endif()
++    foreach(sp_target sentencepiece sentencepiece_train)
 +      target_link_libraries(${TARGET_NAME} PRIVATE ${sp_target})
-     endforeach()
++    endforeach()
      target_link_libraries(${TARGET_NAME} PRIVATE absl::string_view absl::flat_hash_set)
 +    target_include_directories(${TARGET_NAME} SYSTEM PRIVATE
 +      "${sentencepiece_SOURCE_DIR}/src" # for "normalizer.h", used in various places, e.g. normalize_unicode.hpp
@@ -95,12 +94,12 @@ index ae334e12..022f3068 100644
    else()
      if(SPM_PROTOBUF_PROVIDER STREQUAL "internal")
        if(SPM_ABSL_PROVIDER STREQUAL "package")
-@@ -171,7 +176,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
+@@ -163,7 +170,7 @@ function(ov_tokenizers_link_sentencepiece TARGET_NAME)
          "${_sp_src}" # for "third_party/absl/strings/string_view.h"
          "${sentencepiece_BINARY_DIR}/src" # for "sentencepiece_model.pb.h"
          )
 -      endif()
 +    endif()
  
-     foreach(sp_target sentencepiece-static sentencepiece_train-static)
-       if(CMAKE_CL_64)
+     if(CMAKE_CL_64)
+       target_compile_definitions(sentencepiece-static PRIVATE _CRT_SECURE_NO_WARNINGS _SCL_SECURE_NO_WARNINGS)
