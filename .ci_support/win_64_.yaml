@@ -13,11 +13,11 @@ cxx_compiler:
 icu:
 - '78'
 libabseil:
-- '20260107'
+- '20260526'
 libopenvino_dev:
 - 2026.2.0
 libprotobuf:
-- 6.33.5
+- 7.35.1
 libsentencepiece:
 - 0.2.1
 pin_run_as_build:
