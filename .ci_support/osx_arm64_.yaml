@@ -7,7 +7,7 @@ bzip2:
 c_compiler:
 - clang
 c_compiler_version:
-- '19'
+- '21'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -19,13 +19,15 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '19'
+- '21'
 icu:
 - '78'
 libabseil:
 - '20260526'
+libopenvino:
+- 2026.3.0
 libopenvino_dev:
-- 2026.2.0
+- 2026.3.0
 libprotobuf:
 - 7.35.1
 libsentencepiece:
