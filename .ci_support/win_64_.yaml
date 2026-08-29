@@ -14,8 +14,10 @@ icu:
 - '78'
 libabseil:
 - '20260526'
+libopenvino:
+- 2026.3.1
 libopenvino_dev:
-- 2026.2.0
+- 2026.3.1
 libprotobuf:
 - 7.35.1
 libsentencepiece:
