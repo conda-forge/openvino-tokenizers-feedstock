@@ -1,7 +1,9 @@
 bzip2:
 - '1'
 c_compiler:
-- vs2022
+- vs
+c_compiler_version:
+- '2022'
 c_stdlib:
 - vs
 channel_sources:
@@ -9,23 +11,26 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2022
+- vs
+cxx_compiler_version:
+- '2022'
 icu:
 - '78'
 libabseil:
 - '20260526'
+libopenvino:
+- 2026.4.1
 libopenvino_dev:
-- 2026.2.0
+- 2026.4.1
 libprotobuf:
 - 7.35.1
 libsentencepiece:
-- 0.2.1
+- 0.2.3
 pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
 python:
-- 3.10.* *_cpython
 - 3.11.* *_cpython
 - 3.12.* *_cpython
 - 3.13.* *_cp313
